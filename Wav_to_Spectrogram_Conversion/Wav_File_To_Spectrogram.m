@@ -252,4 +252,4 @@ title('Window = 512 = nfft, 50% overlap ');
 
 figure();
 spectrogram(x,blackman(512),[],512,fs,'yaxis');
-title('window = hamming(512)');
+title('window = blackman(512)');
