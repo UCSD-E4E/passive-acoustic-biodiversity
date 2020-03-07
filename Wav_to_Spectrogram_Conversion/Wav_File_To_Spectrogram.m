@@ -25,6 +25,16 @@
     
     mathworks spectrogram information :
     https://www.mathworks.com/help/signal/ref/spectrogram.html#d118e187962
+
+    %It was suggested by my grad student mentor Tim Woodford to set the
+    number of fast fourier transforms (nfft) equal to the window size.
+    %Try to figure out the differences between window types, I.E. Hanning
+    vs. Hamming vs. inputting straight integer values.
+    https://en.wikipedia.org/wiki/Window_function
+
+    Useful tool to compare the different spectrograms that we cannot tell
+    the difference of too keenly with our eyes.
+    https://online-image-comparison.com/
 %}
 %Converting the wave file into a vector x, and frequency sampling rate fs
 [x,fs]=audioread('TestRainforestSoundBite.wav');
@@ -33,8 +43,12 @@
 figure('Name','Varying overlap sizes');
 colormap(jet);
 window2 = hamming(512);
-
+fullTime = x(2:fs*37);
+y = x(1:fs*5);
+z = x(1:fs*20);
 x = x(1:fs*10);
+
+
 
 
 
@@ -183,3 +197,59 @@ title('DFT = 350');
 subplot(3,3,9);
 spectrogram(x,512,[],400,fs,'yaxis');
 title('DFT = 400');
+
+
+
+
+
+
+
+
+
+figure('Name','Various approaches');
+colormap(winter);
+
+subplot(3,3,1);
+spectrogram(x,512,[],512,fs,'yaxis');
+title('Window = 512 = nfft, 50% overlap ');
+
+subplot(3,3,2);
+spectrogram(x,hamming(512),[],512,fs,'yaxis');
+title('window = hamming(512)');
+
+subplot(3,3,3);
+spectrogram(x,hanning(512),[],512,fs,'yaxis');
+title('window = hanning(512)');
+
+subplot(3,3,4);
+spectrogram(x,blackman(512),[],512,fs,'yaxis');
+title('window = blackman(512)');
+
+subplot(3,3,5);
+spectrogram(x,flattopwin(512),[],512,fs,'yaxis');
+title('window = flattopwin(512)');
+
+subplot(3,3,6);
+spectrogram(y,512,[],512,fs,'yaxis');
+title('Decreasing Time Axis ');
+
+subplot(3,3,7);
+spectrogram(z,512,[],512,fs,'yaxis');
+title('Increasing Time Axis');
+
+subplot(3,3,8);
+spectrogram(x,512,[],512,fs*2,'yaxis');
+title('Doubling audioread frequency sampling');
+
+subplot(3,3,9);
+spectrogram(x,512,[],512,'yaxis');
+title('Across full 37 seconds');
+
+
+figure();
+spectrogram(x,512,[],512,fs,'yaxis');
+title('Window = 512 = nfft, 50% overlap ');
+
+figure();
+spectrogram(x,blackman(512),[],512,fs,'yaxis');
+title('window = hamming(512)');
