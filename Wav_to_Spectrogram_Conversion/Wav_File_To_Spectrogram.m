@@ -242,7 +242,7 @@ spectrogram(x,512,[],512,fs*2,'yaxis');
 title('Doubling audioread frequency sampling');
 
 subplot(3,3,9);
-spectrogram(x,512,[],512,'yaxis');
+spectrogram(fullTime,512,[],512,fs,'yaxis');
 title('Across full 37 seconds');
 
 
