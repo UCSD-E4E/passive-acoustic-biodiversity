@@ -92,6 +92,20 @@ def channels_to_stereo(left_channel, right_channel):
     return np.column_stack((left_channel.transpose(), right_channel.transpose()))
 
 def design_bandstop_butter_filter(f_remove, bandwidth, order, fs, sos=True):
+    """
+        Design an IIR (infinite impulse response) butterworth bandstop filter using scipy.signal.butter
+        and filter the given signal
+
+        :param f_remove: the center frequency of the bandstop
+        :param bandwidth: the bandwidth of the bandstop such that the 
+            low edge = f_remove - bandwidth/2
+            high edge = f_remove + bandwidth/2
+        :param order: the order of the filter
+        :param fs: the sampling rate of the signal to be filtered
+
+        :returns the second order sections of the filter if sos == true, else the polynomiamls of 
+        the filter
+    """
     low, high = calculate_edge_freqs(f_remove, bandwidth, fs)
     if sos:
         return signal.butter(order, [low, high], btype='bandstop', output='sos')
@@ -100,12 +114,8 @@ def design_bandstop_butter_filter(f_remove, bandwidth, order, fs, sos=True):
 
 def bandstop_butter(sig, num_poly, den_poly, stereo=True):
     """
-        Design an IIR (infinite impulse response) butterworth bandstop filter using scipy.signal.butter
-        and filter the given signal
-        
-        :param sig: the signal to filter
-
-        :returns the filtered signal as a numpy array
+        filter a given signal using the polynomials of a filter, and return the filtered signal
+        the signal can be either mono or stereo
     """
     if not stereo:
         return signal.filtfilt(num_poly, den_poly, sig)
@@ -129,31 +139,51 @@ def bandstop_butter_sos(sig, sosfilter, stereo=True):
 
     return channels_to_stereo(left_channel, right_channel)
 
+
+def memoize_filters(filt_dict, f_remove, fs, bandwidth, order):
+    if not fs in filt_dict:
+        filt_dict[fs] = []
+        for freq in f_remove:
+            filt_dict[fs].append(design_bandstop_butter_filter(freq, bandwidth, order, fs))
+
+def filter_all_files(dirname, f_remove, bandwidth, order, new_dirname=None):
+    """
+        f_remove is an array of frequencies to center bandstop filters at, filtering the signal using
+        each frequency
+    """
+    # try to create the directory to save the filtered files in if specified
+    if new_dirname: 
+        new_dirname = os.path.join(os.getcwd(), new_dirname)
+        try:
+            os.makedirs(new_dirname)
+        except OSError:
+            pass
+    filters = dict()
+    filtered_signals = dict()
+    for filename in os.listdir(dirname):
+        if not filename.lower().endswith('.WAV'.lower()): # ignore non wav files
+            continue
+        fs, sig = wavfile.read(os.path.join(dirname, filename))
+        memoize_filters(filters, f_remove, fs, bandwidth, order)
+
+        stereo = len(sig.shape) == 2 
+
+        filtered_sig = sig
+        for filt in filters[fs]:
+            filtered_sig = bandstop_butter_sos(filtered_sig, filt, stereo=stereo)
+
+        filtered_signals[filename] = filtered_sig
+        if new_dirname:
+            path = os.path.join(new_dirname, filename)
+            filtered_sig = np.asarray(filtered_sig, dtype=sig.dtype)
+            wavfile.write(path, fs, filtered_sig)
+    
+    return filtered_signals
+
+
 if __name__ == '__main__':
-    # file = 'GY01/trimmed.wav'
-    # fs, sig= wavfile.read(file)
-    # order = 1
-    # f_remove = 5000
-    # bandwidth = 250
+    # filter along 1 frequency
+    sigs = filter_all_files('GY01', [6750], 500, 1, new_dirname='filtered_tests')
 
-    # filt_sig = bandstop_butter_sos(sig, f_remove, bandwidth, order, fs)
-    # print(filt_sig.shape)
-    # # if you want to write it back as a WAV file
-    # # filt_sig = np.asarray(filt_sig, dtype=np.int16)
-    # # wavfile.write('GY01/filtered_notch.WAV', fs, filt_sig)
 
-    # figsize = (10, 8)
-    # fig, (ax_sig, ax_filtered) = plt.subplots(nrows=2, ncols=2, figsize=figsize, constrained_layout=True)
-    # NFFT = 1024
-
-    # ax_sig[0].specgram(sig[:, 0], NFFT=NFFT, Fs=fs, noverlap=900)
-    # ax_sig[0].set_title('Original Signal Left Channel')
-    # ax_sig[1].specgram(sig[:, 1], NFFT=NFFT, Fs=fs, noverlap=900)
-    # ax_sig[1].set_title('Original Signal Right Channel')
-
-    # ax_filtered[0].specgram(filt_sig[:, 0], NFFT=NFFT, Fs=fs, noverlap=900)
-    # ax_filtered[0].set_title('Filtered Signal Left Channel')
-    # ax_filtered[1].specgram(filt_sig[:, 1], NFFT=NFFT, Fs=fs, noverlap=900)
-    # ax_filtered[1].set_title('Filtered Signal Right Channel')
-    # plt.show()
 
