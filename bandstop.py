@@ -2,6 +2,7 @@ from scipy.io import wavfile
 from scipy import signal
 import matplotlib.pyplot as plt
 import numpy as np
+import os
 
 def bandstop_firwin(f1_edge, f2_edge, order, fs):
     """
@@ -90,71 +91,69 @@ def channels_to_stereo(left_channel, right_channel):
     """
     return np.column_stack((left_channel.transpose(), right_channel.transpose()))
 
-def bandstop_butter(sig, f_remove, bandwidth, order, fs, stereo=True):
+def design_bandstop_butter_filter(f_remove, bandwidth, order, fs, sos=True):
+    low, high = calculate_edge_freqs(f_remove, bandwidth, fs)
+    if sos:
+        return signal.butter(order, [low, high], btype='bandstop', output='sos')
+    else:
+        return signal.butter(order, [low, high], btype='bandstop')
+
+def bandstop_butter(sig, num_poly, den_poly, stereo=True):
     """
         Design an IIR (infinite impulse response) butterworth bandstop filter using scipy.signal.butter
         and filter the given signal
         
         :param sig: the signal to filter
-        :param f_remove: the center frequency of the band
-        :param bandwidth: the bandwidth of the filter 
-        :param order: the order of the filter
-        :param fs: the sampling frequency of the signal 
 
         :returns the filtered signal as a numpy array
     """
-    low, high = calculate_edge_freqs(f_remove, bandwidth, fs)
-
-    b, a = signal.butter(order, [low, high], btype='bandstop')
     if not stereo:
-        return signal.filtfilt(b, a, sig)
+        return signal.filtfilt(num_poly, den_poly, sig)
     
-    left_channel = signal.filtfilt(b, a, sig[:, 0])
-    right_channel = signal.filtfilt(b, a, sig[:, 1])
+    left_channel = signal.filtfilt(num_poly, den_poly, sig[:, 0])
+    right_channel = signal.filtfilt(num_poly, den_poly, sig[:, 1])
 
     return channels_to_stereo(left_channel, right_channel)
 
-def bandstop_butter_sos(sig, f_remove, bandwidth, order, fs, stereo=True):
+def bandstop_butter_sos(sig, sosfilter, stereo=True):
     """
         same as bandstop_butter but uses second-order sections (sosfiltfilt), which have 'fewer 
         numerical problems'
     """
-    low, high = calculate_edge_freqs(f_remove, bandwidth, fs)
-    sos = signal.butter(order, [low, high], btype='bandstop', output='sos')
 
     if not stereo:
-        return signal.sosfiltfilt(sos, sig)
+        return signal.sosfiltfilt(sosfilter, sig)
     
-    left_channel = signal.sosfiltfilt(sos, sig[:, 0])
-    right_channel = signal.sosfiltfilt(sos, sig[:, 1])
+    left_channel = signal.sosfiltfilt(sosfilter, sig[:, 0])
+    right_channel = signal.sosfiltfilt(sosfilter, sig[:, 1])
 
     return channels_to_stereo(left_channel, right_channel)
 
 if __name__ == '__main__':
-    file = 'GY01/trimmed.wav'
-    fs, sig= wavfile.read(file)
-    order = 1
-    f_remove = 5000
-    bandwidth = 250
+    # file = 'GY01/trimmed.wav'
+    # fs, sig= wavfile.read(file)
+    # order = 1
+    # f_remove = 5000
+    # bandwidth = 250
 
-    filt_sig = bandstop_butter_sos(sig, f_remove, bandwidth, order, fs)
-    print(filt_sig.shape)
-    # if you want to write it back as a WAV file
-    # filt_sig = np.asarray(filt_sig, dtype=np.int16)
-    # wavfile.write('GY01/filtered_notch.WAV', fs, filt_sig)
+    # filt_sig = bandstop_butter_sos(sig, f_remove, bandwidth, order, fs)
+    # print(filt_sig.shape)
+    # # if you want to write it back as a WAV file
+    # # filt_sig = np.asarray(filt_sig, dtype=np.int16)
+    # # wavfile.write('GY01/filtered_notch.WAV', fs, filt_sig)
 
-    figsize = (10, 8)
-    fig, (ax_sig, ax_filtered) = plt.subplots(nrows=2, ncols=2, figsize=figsize, constrained_layout=True)
-    NFFT = 1024
+    # figsize = (10, 8)
+    # fig, (ax_sig, ax_filtered) = plt.subplots(nrows=2, ncols=2, figsize=figsize, constrained_layout=True)
+    # NFFT = 1024
 
-    ax_sig[0].specgram(sig[:, 0], NFFT=NFFT, Fs=fs, noverlap=900)
-    ax_sig[0].set_title('Original Signal Left Channel')
-    ax_sig[1].specgram(sig[:, 1], NFFT=NFFT, Fs=fs, noverlap=900)
-    ax_sig[1].set_title('Original Signal Right Channel')
+    # ax_sig[0].specgram(sig[:, 0], NFFT=NFFT, Fs=fs, noverlap=900)
+    # ax_sig[0].set_title('Original Signal Left Channel')
+    # ax_sig[1].specgram(sig[:, 1], NFFT=NFFT, Fs=fs, noverlap=900)
+    # ax_sig[1].set_title('Original Signal Right Channel')
 
-    ax_filtered[0].specgram(filt_sig[:, 0], NFFT=NFFT, Fs=fs, noverlap=900)
-    ax_filtered[0].set_title('Filtered Signal Left Channel')
-    ax_filtered[1].specgram(filt_sig[:, 1], NFFT=NFFT, Fs=fs, noverlap=900)
-    ax_filtered[1].set_title('Filtered Signal Right Channel')
-    plt.show()
+    # ax_filtered[0].specgram(filt_sig[:, 0], NFFT=NFFT, Fs=fs, noverlap=900)
+    # ax_filtered[0].set_title('Filtered Signal Left Channel')
+    # ax_filtered[1].specgram(filt_sig[:, 1], NFFT=NFFT, Fs=fs, noverlap=900)
+    # ax_filtered[1].set_title('Filtered Signal Right Channel')
+    # plt.show()
 
