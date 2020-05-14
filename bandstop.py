@@ -139,7 +139,6 @@ def bandstop_butter_sos(sig, sosfilter, stereo=True):
 
     return channels_to_stereo(left_channel, right_channel)
 
-
 def memoize_filters(filt_dict, f_remove, fs, bandwidth, order):
     if not fs in filt_dict:
         filt_dict[fs] = []
@@ -180,10 +179,28 @@ def filter_all_files(dirname, f_remove, bandwidth, order, new_dirname=None):
     
     return filtered_signals
 
+def plot_specgrams(data, filt_data, Fs, stereo=True):
+    figsize = (10, 8)
+    NFFT = 1024
+    if stereo:
+        fig, (ax_top, ax_bot) = plt.subplots(2, 2, figsize=figsize, constrained_layout=True)
+        ax_top[0].specgram(data[:, 0], NFFT=NFFT, Fs=Fs, noverlap=900)
+        ax_bot[0].specgram(data[:, 1], NFFT=NFFT, Fs=Fs, noverlap=900)
+        ax_top[0].set_title('Left Channel')
+        ax_bot[0].set_title('Right Channel')
+        ax_top[0].set_xlabel('Time [s]')
+        ax_top[0].set_ylabel('Freq [Hz]')
+
+        ax_top[1].specgram(filt_data[:, 0], NFFT=NFFT, Fs=Fs, noverlap=900)
+        ax_bot[1].specgram(filt_data[:, 1], NFFT=NFFT, Fs=Fs, noverlap=900)
+        ax_top[1].set_title('Filtered Data')
+        plt.show()
 
 if __name__ == '__main__':
     # filter along 1 frequency
-    sigs = filter_all_files('GY01', [6750], 500, 1, new_dirname='filtered_tests')
+    # sigs = filter_all_files('GY01', [4000, 5000, 6000, 7000], 500, 1, new_dirname='filtered_tests')
+
+    filter_all_files('mono', [120000, 130000], 2000, 1, new_dirname='mono_filtered')
 
 
 
