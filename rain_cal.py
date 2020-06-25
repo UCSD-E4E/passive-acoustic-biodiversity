@@ -79,13 +79,12 @@ def rain_cal(data_path, t_mean, t_snr):
 
 		# STEP 4: Classify samples
 		if mean_a > t_mean and c > t_snr:
-			print(file)
-			print('Rainfall of intensity {:.2f}'.format(mean_a))
+			print('{}: Rainfall of intensity {:.2f}'.format(file, mean_a))
 
 
 if __name__ == '__main__':
 	### Set your own file path ###
-	data_path = './AM15-16-Rain_60s/'
+	data_path = './YOUR/FILE/PATH/'
 	t_mean = 1e-6
 	t_snr = 3.5
 
