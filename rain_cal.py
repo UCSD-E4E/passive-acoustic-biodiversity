@@ -162,6 +162,7 @@ def classify(data_path, min_psd, max_psd, min_snr, max_snr):
 
 
 if __name__ == '__main__':
+	### Set True or False depending on whether you want to train or use default thresholds ###
 	TRAIN = True
 
 	### Set your own file path ###
