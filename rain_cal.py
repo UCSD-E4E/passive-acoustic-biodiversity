@@ -6,6 +6,9 @@ import glob
 import time
 from scipy import signal
 from scipy.io import wavfile
+import scipy.signal as scipy_signal
+import samplerate
+import resampy
 
 """
 Detect Rain
@@ -122,10 +125,17 @@ def classify(data_path, min_psd, max_psd, min_snr, max_snr):
 		if recording.ndim == 2:
 			recording = recording.sum(axis=1) / 2
 
-		# Downsample to 44.1 kHz
-		if sample_rate != 44100:
-			recording = signal.decimate(recording, int(sample_rate/44100))
-			sample_rate = 44100
+		downsample_rate = 44100
+		downsample_ratio = int(sample_rate / downsample_rate)
+		# Downsample to chosen rate
+		if sample_rate != downsample_rate:
+			# recording = signal.decimate(recording, downsample_ratio)
+			# recording = samplerate.resample(recording, downsample_ratio, "sinc_fastest")
+			recording = scipy_signal.resample(recording, 
+					int(len(recording)*downsample_ratio))
+			# recording = resampy.resample(np.float64(recording),
+			# 		sample_rate, downsample_rate)
+			sample_rate = downsample_rate
 
 		# STEP 1: Estimate PSD vector from signal vector
 		f, p = signal.welch(recording, fs=sample_rate, window='hamming', 
@@ -167,7 +177,7 @@ if __name__ == '__main__':
 
 	### Set your own file path ###
 	train_path = './AM-Training/'
-	classify_path = './AM-Mixed_60s/'
+	classify_path = './AM-15-16-Rain_60s/'
 
 	if TRAIN:
 		start_time = time.time()
@@ -175,7 +185,7 @@ if __name__ == '__main__':
 		print('----- Training: {:.2f} seconds -----'.format(
 				time.time() - start_time))
 	else:
-		min_psd, max_psd, min_snr, max_snr = 1e-6, 9999, 3.5, 9999
+		min_psd, max_psd, min_snr, max_snr = 1e-6, sys.maxsize, 3.5, sys.maxsize
 
 	start_time = time.time()
 	classify(classify_path, min_psd, max_psd, min_snr, max_snr)
