@@ -9,7 +9,10 @@ audio_dir = sys.argv[1]
 detector = RNNDetector()
 
 for wav_file in os.listdir(audio_dir):
-    global_score, local_score = detector.predict_on_wav(wav_file)
+    try:
+        global_score, local_score = detector.predict_on_wav(wav_file)
+    except:
+        print("Error on file", wav_file)
 
     print(wav_file)
     print("Global score:", global_score)
