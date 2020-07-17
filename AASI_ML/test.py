@@ -1,19 +1,35 @@
-from microfaune.detection import RNNDetector
+from microfaune_package.microfaune.detection import RNNDetector
 import matplotlib.pyplot as plt
+import os
 import sys
 import numpy as np
+import datetime
 
-audio_name = sys.argv[1]
+audio_dir = sys.argv[1]
 detector = RNNDetector()
-global_score, local_score = detector.predict_on_wav(audio_name)
 
-print(global_score)
+for wav_file in os.listdir(audio_dir):
+    global_score, local_score = detector.predict_on_wav(wav_file)
 
-#t = np.arange(0,len(local_score),1)
-t = np.arange(0,10.0,10/len(local_score))
-print(len(local_score))
-print(len(t))
-plt.plot(t,local_score,lw=1);
+    print(wav_file)
+    print("Global score:", global_score)
+    print("Local score:", local_score)
+
+dates = ["06/17/19", "06/18/19", "06/19/19", "06/20/19", "06/21/19"]
+x_vals = [datetime.datetime.strptime(d,"%m/%d/%Y").date() for d in dates]
+ax = plt.gca()
+
+formatter = mdates.DateFormatter("%Y-%m-%d")
+ax.xaxis.set_major_formatter(formatter)
+
+locator = mdates.DayLocator()
+ax.xaxis.set_major_locator(locator)
+
+plt.figure(figsize=(15, 8))
+plt.plot(x_vals, local_score, lw=1)
+plt.title("Bird Vocalizations from 00:00 6/17 - 23:50 6/21")
+plt.xlabel("Time")
+plt.ylabel("Prediction scores")
 plt.ylim(0,1.0)
-plt.show()
 
+plt.savefig("local_score_AM1.png")
