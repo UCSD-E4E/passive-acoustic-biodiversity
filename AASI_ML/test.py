@@ -3,8 +3,6 @@ import matplotlib.pyplot as plt
 import os
 import sys
 import numpy as np
-import datetime
-import matplotlib.dates as mdates
 import pdb
 
 AM_NAME = "AM16"
