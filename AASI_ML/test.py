@@ -101,8 +101,8 @@ def calc_local_scores(audio_dir):
         duration = str(audio.duration_seconds)
         
         with open(audio_dir + audio_file[:-4]+"_LS.txt", "w") as f:
-            f.write(duration)
-            f.write(str(len(local_score)))
+            f.write(duration+"\n")
+            f.write(str(len(local_score))+"\n")
             for sc in local_score:
                 f.write(str(sc) + '\n')
 
