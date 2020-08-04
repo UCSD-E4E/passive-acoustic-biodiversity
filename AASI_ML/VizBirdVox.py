@@ -11,6 +11,7 @@ import argparse
 AM_NAME = "AM16"
 FIRST_STAMP = "00:00:00 06/13/2019"
 NUM_DAYS_AVERAGED = 0
+SCORES_DIR = "test_dir/outputs/"
 
 
 """
@@ -87,7 +88,7 @@ def box_plot(global_scores):
     plt.savefig("global_scores_box_"+AM_NAME+".png")
 
 
-def local_line_graph(local_scores, clip_name):
+def local_line_graph(local_scores, clip_name, scores_dir):
     duration = local_scores.pop(0)
     num_scores = local_scores.pop(0)
     step = duration / num_scores
@@ -101,13 +102,11 @@ def local_line_graph(local_scores, clip_name):
     plt.ylabel("Prediction scores")
     plt.grid(which='major', linestyle='-')
     plt.ylim(0,1.0)
-    plt.savefig(clip_name[:-4]+".png")
+    plt.savefig(scores_dir+clip_name[:-4]+".png")
 
 
 if __name__ == "__main__":
     args = parse_args()
-
-    scores_dir = "test_dir/outputs/"
     
     # Do global graphs
     if args.do_global_graphs:
@@ -124,13 +123,13 @@ if __name__ == "__main__":
     # Do local graphs
     else:
         # collect data
-        for scores_file in os.listdir(scores_dir):
+        for scores_file in os.listdir(SCORES_DIR):
             local_scores = []
             if not scores_file.endswith(".txt"): continue
             
-            with open(scores_dir+scores_file, "r") as f:
+            with open(SCORES_DIR+scores_file, "r") as f:
                 for line in f:
                     local_scores.append(float(line.strip()))
 
             # create graph
-            local_line_graph(local_scores, scores_file)
+            local_line_graph(local_scores, scores_file, SCORES_DIR)
