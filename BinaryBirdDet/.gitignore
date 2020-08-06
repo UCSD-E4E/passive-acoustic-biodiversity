@@ -3,3 +3,4 @@ test_bird/
 test_nonbird/
 test_dir/
 *.swp
+score_files/

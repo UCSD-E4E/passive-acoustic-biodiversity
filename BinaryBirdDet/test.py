@@ -18,6 +18,9 @@ def parse_args():
     parser.add_argument('--global', dest='do_global_scores',
                         help='whether creating global scores or not',
                         action='store_true')
+    parser.add_argument('--test', dest='test_net',
+                        help='whether evaluate performance of network or not',
+                        action='store_true')
     args = parser.parse_args()
     
     return args
@@ -25,8 +28,9 @@ def parse_args():
 
 """
 This function creates a global score file
+and evaluates performance of network using labelled input data
 """
-def calc_global_scores(audio_dir, label):
+def calc_global_scores_test(audio_dir, label):
     detector = RNNDetector()
     global_scores = []
     raw_error = {'correct':0, 'total':0}
@@ -67,6 +71,38 @@ def calc_global_scores(audio_dir, label):
 
 
 """
+This function creates a global score file
+"""
+def calc_global_scores(audio_dir):
+    detector = RNNDetector()
+    global_scores = []
+
+    for audio_file in os.listdir(audio_dir):
+        try:
+            # for wavs
+            if audio_file.lower().endswith('.wav'):
+                global_score, _ = detector.predict_on_wav(audio_dir + audio_file)
+                print("Loaded", audio_file)
+            # for mp3s
+            elif audio_file.lower().endswith('.mp3'):
+                global_score, _ = detector.predict(audio_dir + audio_file)
+                print("Loaded", audio_file)
+            else:
+                print("Invalid file extension, skipping", audio_file)
+                continue
+        except:
+            print("Error in file, skipping", audio_file)
+            global_score = [0]
+            continue
+        
+        global_scores.append((audio_file, global_score))
+
+    with open("score_files/" + audio_file[:-11] + "_GS.txt", "w") as f:
+        for sc in global_scores:
+            f.write(str(sc) + '\n')
+
+
+"""
 This function creates a local score file
 
 \/ Description of file it creates \/
@@ -100,7 +136,7 @@ def calc_local_scores(audio_dir):
         audio = AudioSegment.from_file(audio_dir + audio_file)
         duration = str(audio.duration_seconds)
         
-        with open(audio_dir + audio_file[:-4]+"_LS.txt", "w") as f:
+        with open("score_files/" + audio_file[:-4]+"_LS.txt", "w") as f:
             f.write(duration+"\n")
             f.write(str(len(local_score))+"\n")
             for sc in local_score:
@@ -111,40 +147,48 @@ if __name__ == '__main__':
     args = parse_args()
 
     home = str(Path.home())
+    peru_dir = os.path.join(home, "../../media/e4e/New Volume/AudiomothData/AM3_Subset/")
     present_dir = os.path.join(home, "../../media/e4e/New Volume/XCSelection/")
     absent_dir = os.path.join(home, "../../media/e4e/New Volume/audioset_nonbird/")
-    test_dir = "test_dir/audio/"
+    # test_dir = "test_dir/audio/"
+    test_dir = os.path.join(home, "../../media/e4e/New Volume/AudiomothData/AM3_Subset/gt99/")
 
     # Calculate global scores
     if args.do_global_scores:
-        # Second parameter is True if birds present, False if absent
-        present_error = calc_global_scores(present_dir, True)
-        absent_error = calc_global_scores(absent_dir, False)
 
-        raw_error = {'tp': present_error['correct'],
-                     'fp': absent_error['total']-absent_error['correct'],
-                     'tn': absent_error['correct'],
-                     'fn': present_error['total']-present_error['correct']}
-        
-        # calculate relative error
-        rel_error = {'prec':0, 'recall':0, 'f1':0}
-        # precision = tp / (tp+fp)
-        rel_error['prec'] = raw_error['tp'] / (raw_error['tp']+raw_error['fp'])
-        # recall = tp / (tp+fn)
-        rel_error['recall'] = raw_error['tp'] / (raw_error['tp']+raw_error['fn'])
-        # f1 = 2 * [(prec*rec)/(prec+rec)]
-        rel_error['f1'] = 2 * \
-                ((rel_error['prec'] * rel_error['recall']) / \
-                (rel_error['prec'] + rel_error['recall']))
+        # evalutate performace, output metrics
+        if args.test_net:
+            # Second parameter is True if birds present, False if absent
+            present_error = calc_global_scores_test(present_dir, True)
+            absent_error = calc_global_scores_test(absent_dir, False)
 
-        with open("error_report.csv","w", newline='') as f:
-            writer = csv.writer(f)
+            raw_error = {'tp': present_error['correct'],
+                         'fp': absent_error['total']-absent_error['correct'],
+                         'tn': absent_error['correct'],
+                         'fn': present_error['total']-present_error['correct']}
+            
+            # calculate relative error
+            rel_error = {'prec':0, 'recall':0, 'f1':0}
+            # precision = tp / (tp+fp)
+            rel_error['prec'] = raw_error['tp'] / (raw_error['tp']+raw_error['fp'])
+            # recall = tp / (tp+fn)
+            rel_error['recall'] = raw_error['tp'] / (raw_error['tp']+raw_error['fn'])
+            # f1 = 2 * [(prec*rec)/(prec+rec)]
+            rel_error['f1'] = 2 * \
+                    ((rel_error['prec'] * rel_error['recall']) / \
+                    (rel_error['prec'] + rel_error['recall']))
 
-            for key in raw_error.keys():
-                writer.writerow([key] + [raw_error[key]])
-            writer.writerow(['----'])
-            for key in rel_error.keys():
-                writer.writerow([key] + [rel_error[key]])
+            with open("error_report.csv","w", newline='') as f:
+                writer = csv.writer(f)
+
+                for key in raw_error.keys():
+                    writer.writerow([key] + [raw_error[key]])
+                writer.writerow(['----'])
+                for key in rel_error.keys():
+                    writer.writerow([key] + [rel_error[key]])
+        # do not evaluate performance
+        else:
+            calc_global_scores(peru_dir)
 
     # Calculate local scores
     else:
