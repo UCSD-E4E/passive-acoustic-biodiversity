@@ -92,12 +92,13 @@ def calc_global_scores(audio_dir):
                 continue
         except:
             print("Error in file, skipping", audio_file)
+            print(sys.exc_info()[0])
             global_score = [0]
             continue
         
-        global_scores.append((audio_file, global_score))
+        global_scores.append((global_score, audio_file))
 
-    with open("score_files/" + audio_file[:-11] + "_GS.txt", "w") as f:
+    with open("score_files/StratRandomSample_10s_GS.txt", "w") as f:
         for sc in global_scores:
             f.write(str(sc) + '\n')
 
@@ -151,7 +152,10 @@ if __name__ == '__main__':
     present_dir = os.path.join(home, "../../media/e4e/New Volume/XCSelection/")
     absent_dir = os.path.join(home, "../../media/e4e/New Volume/audioset_nonbird/")
     # test_dir = "test_dir/audio/"
-    test_dir = os.path.join(home, "../../media/e4e/New Volume/AudiomothData/AM3_Subset/gt99/")
+    test_dir = os.path.join(
+            home, "../../media/e4e/Rainforest_Data1/StratRandomSampSmaller/10s/gt98/")
+    sample_dir = os.path.join(
+            home, "../../media/e4e/Rainforest_Data1/StratRandomSampSmaller/10s/")
 
     # Calculate global scores
     if args.do_global_scores:
@@ -188,7 +192,7 @@ if __name__ == '__main__':
                     writer.writerow([key] + [rel_error[key]])
         # do not evaluate performance
         else:
-            calc_global_scores(peru_dir)
+            calc_global_scores(sample_dir)
 
     # Calculate local scores
     else:
