@@ -9,12 +9,13 @@ import os
 import argparse
 from scipy import signal
 from scipy.io import wavfile
+import scipy.signal as scipy_signal
 from pathlib import Path
 
 AM_NAME = "AM16"
 FIRST_STAMP = "00:00:00 06/13/2019"
 NUM_DAYS_AVERAGED = 0
-SCORES_DIR = "score_files/"
+SCORES_DIR = "score_files/AM15_16/"
 
 
 """
@@ -94,36 +95,38 @@ def box_plot(global_scores):
 def local_line_graph(local_scores, clip_name, scores_dir):
     # process signal to get spectrogram
     home = str(Path.home())
-    wav_path = os.path.join(home, "../../media/e4e/New Volume/AudiomothData/AM3_Subset/gt99/")
-    wav_name = wav_path + clip_name.strip("_LS.txt") + ".WAV"
+    wav_path = os.path.join(
+            home, "../../media/e4e/New Volume/AudiomothData/AM15_16_Birds/")
+    wav_name = wav_path + clip_name[:-7] + ".WAV"
     sample_rate, samples = wavfile.read(wav_name)
-    
+
     duration = local_scores.pop(0)
     num_scores = local_scores.pop(0)
     step = duration / num_scores
     time_stamps = np.arange(0, duration, step)
+
+    if len(time_stamps) > len(local_scores):
+        time_stamps = time_stamps[:-1]
 
     # graph
     fig, axs = plt.subplots(2)
     fig.set_figwidth(22)
     fig.set_figheight(10)
     fig.suptitle("Spectrogram and Local Scores for "+clip_name)
+    # scores
     axs[0].plot(time_stamps, local_scores)
-    axs[0].set_xlim(0,60)
-    # axs[1].pcolormesh(times, frequencies, spectrogram)
-    # axs[1].pcolormesh(np.log(spectrogram))
+    axs[0].set_xlim(0,duration)
+    axs[0].set_ylim(0,1)
+    axs[0].grid(which='major', linestyle='-')
+    # spectro
     Pxx, freqs, bins, im = axs[1].specgram(samples, Fs=sample_rate,
-                                           NFFT=4096, noverlap=2048,
-                                           window=np.hanning(4096), cmap="ocean")
-    axs[1].set_xlim(0,60)
-    axs[1].set_ylim(22050)
+            NFFT=4096, noverlap=2048,
+            window=np.hanning(4096), cmap="ocean")
+    axs[1].set_xlim(0,duration)
+    axs[1].set_ylim(0,22050)
+    axs[1].grid(which='major', linestyle='-')
 
-    # plt.figure(figsize=(18, 8))
-    # plt.plot(time_stamps, local_scores)
-    # plt.xlabel("Time")
-    # plt.ylabel("Prediction scores")
-    # plt.grid(which='major', linestyle='-')
-    # plt.ylim(0,1.0)
+    plt.grid(which='major', linestyle='-')
     plt.savefig(scores_dir+clip_name[:-4]+".png")
 
 
@@ -147,8 +150,8 @@ if __name__ == "__main__":
         # collect data
         for scores_file in os.listdir(SCORES_DIR):
             local_scores = []
-            if not scores_file.endswith(".txt"): continue
-            
+            if not scores_file.endswith(".txt") or "_DS_" not in scores_file: continue
+
             with open(SCORES_DIR+scores_file, "r") as f:
                 for line in f:
                     local_scores.append(float(line.strip()))

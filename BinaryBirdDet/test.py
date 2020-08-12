@@ -8,6 +8,9 @@ import pdb
 import csv
 import argparse
 from pydub import AudioSegment
+from scipy.io import wavfile
+import scipy.signal as scipy_signal
+from scipy.io.wavfile import write
 
 
 """
@@ -98,7 +101,7 @@ def calc_global_scores(audio_dir):
         
         global_scores.append((global_score, audio_file))
 
-    with open("score_files/StratRandomSample_10s_GS.txt", "w") as f:
+    with open("score_files/XCSelection_Subset_GS.txt", "w") as f:
         for sc in global_scores:
             f.write(str(sc) + '\n')
 
@@ -118,9 +121,22 @@ def calc_local_scores(audio_dir):
     local_scores = []
 
     for audio_file in os.listdir(audio_dir):
+        if os.path.isdir(audio_dir+audio_file): continue
+        sample_rate, samples = wavfile.read(audio_dir + audio_file)
+        
+        # downsample
+        rate_ratio = 44100 / sample_rate
+        samples = scipy_signal.resample(samples, int(len(samples)*rate_ratio))
+        sample_rate = 44100
+        new_filename = audio_file[:-4] + "_DS" + audio_file[-4:]
+
+        write(audio_dir + new_filename, sample_rate, samples)
+        audio_file = new_filename
+
         try:
             # for wavs
             if audio_file.lower().endswith('.wav'):
+                # can optimize to not have to take in real file, just numpy arr
                 _, local_score = detector.predict_on_wav(audio_dir + audio_file)
                 print("Loaded", audio_file)
             # for mp3s
@@ -137,7 +153,7 @@ def calc_local_scores(audio_dir):
         audio = AudioSegment.from_file(audio_dir + audio_file)
         duration = str(audio.duration_seconds)
         
-        with open("score_files/" + audio_file[:-4]+"_LS.txt", "w") as f:
+        with open("score_files/AM15_16/" + audio_file[:-4]+"_LS.txt", "w") as f:
             f.write(duration+"\n")
             f.write(str(len(local_score))+"\n")
             for sc in local_score:
@@ -151,11 +167,10 @@ if __name__ == '__main__':
     peru_dir = os.path.join(home, "../../media/e4e/New Volume/AudiomothData/AM3_Subset/")
     present_dir = os.path.join(home, "../../media/e4e/New Volume/XCSelection/")
     absent_dir = os.path.join(home, "../../media/e4e/New Volume/audioset_nonbird/")
-    # test_dir = "test_dir/audio/"
-    test_dir = os.path.join(
-            home, "../../media/e4e/Rainforest_Data1/StratRandomSampSmaller/10s/gt98/")
-    sample_dir = os.path.join(
-            home, "../../media/e4e/Rainforest_Data1/StratRandomSampSmaller/10s/")
+    global_dir = os.path.join(
+            home, "../../media/e4e/New Volume/XCSelection/Subset/")
+    local_dir = os.path.join(
+            home, "../../media/e4e/New Volume/AudiomothData/AM15_16_Birds/")
 
     # Calculate global scores
     if args.do_global_scores:
@@ -192,8 +207,8 @@ if __name__ == '__main__':
                     writer.writerow([key] + [rel_error[key]])
         # do not evaluate performance
         else:
-            calc_global_scores(sample_dir)
+            calc_global_scores(global_dir)
 
     # Calculate local scores
     else:
-        calc_local_scores(test_dir)
+        calc_local_scores(local_dir)
