@@ -109,7 +109,7 @@ def calc_global_scores(audio_dir):
 """
 This function creates a local score file
 
-\/ Description of file it creates \/
+--- Description of file it creates --- 
 line 1: Duration of audio clip in seconds
 line 2: Amount of local scores were created
 line 3: one local score each line
@@ -117,26 +117,30 @@ line 3: one local score each line
 line 3+len(local_scores)
 """
 def calc_local_scores(audio_dir):
+    # TODO optimize detector.predict to not have to take in real file, just numpy arr
+    # init detector
     detector = RNNDetector()
-    local_scores = []
 
+    # generate local scores for every file in chosen directory
     for audio_file in os.listdir(audio_dir):
+        # skip directories
         if os.path.isdir(audio_dir+audio_file): continue
-        sample_rate, samples = wavfile.read(audio_dir + audio_file)
         
-        # downsample
+        # read file and downsample
+        sample_rate, samples = wavfile.read(audio_dir + audio_file)
         rate_ratio = 44100 / sample_rate
         samples = scipy_signal.resample(samples, int(len(samples)*rate_ratio))
         sample_rate = 44100
+        # add DS to end of downsampled file
         new_filename = audio_file[:-4] + "_DS" + audio_file[-4:]
-
+        # write downsampled file
         write(audio_dir + new_filename, sample_rate, samples)
         audio_file = new_filename
 
+        # detection
         try:
             # for wavs
             if audio_file.lower().endswith('.wav'):
-                # can optimize to not have to take in real file, just numpy arr
                 _, local_score = detector.predict_on_wav(audio_dir + audio_file)
                 print("Loaded", audio_file)
             # for mp3s
@@ -150,9 +154,11 @@ def calc_local_scores(audio_dir):
             print("Error in file, skipping", audio_file)
             continue
         
+        # get duration of clip
         audio = AudioSegment.from_file(audio_dir + audio_file)
         duration = str(audio.duration_seconds)
         
+        # write local score file in chosen directory
         with open("score_files/AM15_16/" + audio_file[:-4]+"_LS.txt", "w") as f:
             f.write(duration+"\n")
             f.write(str(len(local_score))+"\n")
@@ -164,9 +170,12 @@ if __name__ == '__main__':
     args = parse_args()
 
     home = str(Path.home())
-    peru_dir = os.path.join(home, "../../media/e4e/New Volume/AudiomothData/AM3_Subset/")
-    present_dir = os.path.join(home, "../../media/e4e/New Volume/XCSelection/")
-    absent_dir = os.path.join(home, "../../media/e4e/New Volume/audioset_nonbird/")
+    peru_dir = os.path.join(
+            home, "../../media/e4e/New Volume/AudiomothData/AM3_Subset/")
+    present_dir = os.path.join(
+            home, "../../media/e4e/New Volume/XCSelection/")
+    absent_dir = os.path.join(
+            home, "../../media/e4e/New Volume/audioset_nonbird/")
     global_dir = os.path.join(
             home, "../../media/e4e/New Volume/XCSelection/Subset/")
     local_dir = os.path.join(
