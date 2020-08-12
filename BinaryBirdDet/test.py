@@ -1,3 +1,5 @@
+from __future__ import division
+
 from microfaune_package.microfaune.detection import RNNDetector
 import matplotlib.pyplot as plt
 import os
@@ -7,7 +9,6 @@ import numpy as np
 import pdb
 import csv
 import argparse
-from pydub import AudioSegment
 from scipy.io import wavfile
 import scipy.signal as scipy_signal
 from scipy.io.wavfile import write
@@ -155,15 +156,40 @@ def calc_local_scores(audio_dir):
             continue
         
         # get duration of clip
-        audio = AudioSegment.from_file(audio_dir + audio_file)
-        duration = str(audio.duration_seconds)
+        duration = len(samples) / sample_rate
+        
+        # isolate bird sounds in the clip by eliminating dead noise
+        isolate(local_score, samples, sample_rate, duration, audio_dir, new_filename)
         
         # write local score file in chosen directory
-        with open("score_files/AM15_16/" + audio_file[:-4]+"_LS.txt", "w") as f:
+        with open("score_files/XCSubset/" + audio_file[:-4]+"_LS.txt", "w") as f:
             f.write(duration+"\n")
             f.write(str(len(local_score))+"\n")
             for sc in local_score:
                 f.write(str(sc) + '\n')
+
+
+def isolate(scores, samples, sample_rate, duration, audio_dir, filename):
+    # how many samples does one score represent
+    scale = len(samples) // len(scores)
+    
+    # isolate samples that produce a score above thresh
+    thresh = 0.1
+    isolated_samples = np.empty(0)
+    for i in range(len(scores)):
+        if scores[i] >= thresh:
+            isolated_samples = np.append( isolated_samples, samples[i*scale:(i+1)*scale] )
+    
+    # calculate new duration
+    new_duration = len(isolated_samples) / sample_rate
+    percent_reduced = 1 - (new_duration / duration)
+    print('Reduced {} from {:.2f}s to {:.2f}s. {:.2%} reduced.'.format( \
+            filename, duration, new_duration, percent_reduced))
+
+    # write file
+    pdb.set_trace()
+    new_filename = filename[:-4] + "_RED" + filename[-4:]
+    write(audio_dir + new_filename, sample_rate, isolated_samples)
 
 
 if __name__ == '__main__':
@@ -179,7 +205,7 @@ if __name__ == '__main__':
     global_dir = os.path.join(
             home, "../../media/e4e/New Volume/XCSelection/Subset/")
     local_dir = os.path.join(
-            home, "../../media/e4e/New Volume/AudiomothData/AM15_16_Birds/")
+            home, "../../media/e4e/New Volume/XCSelection/Subset/")
 
     # Calculate global scores
     if args.do_global_scores:
