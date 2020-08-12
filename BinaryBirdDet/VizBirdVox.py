@@ -15,7 +15,6 @@ from pathlib import Path
 AM_NAME = "AM16"
 FIRST_STAMP = "00:00:00 06/13/2019"
 NUM_DAYS_AVERAGED = 0
-SCORES_DIR = "score_files/AM15_16/"
 
 
 """
@@ -93,13 +92,16 @@ def box_plot(global_scores):
 
 
 def local_line_graph(local_scores, clip_name, scores_dir):
-    # process signal to get spectrogram
+    # load signal to get spectrogram
     home = str(Path.home())
     wav_path = os.path.join(
             home, "../../media/e4e/New Volume/AudiomothData/AM15_16_Birds/")
+    # remove file extension and _LS label from end of file
     wav_name = wav_path + clip_name[:-7] + ".WAV"
+    # load file
     sample_rate, samples = wavfile.read(wav_name)
 
+    # calculate time stamps - x axis
     duration = local_scores.pop(0)
     num_scores = local_scores.pop(0)
     step = duration / num_scores
@@ -108,17 +110,17 @@ def local_line_graph(local_scores, clip_name, scores_dir):
     if len(time_stamps) > len(local_scores):
         time_stamps = time_stamps[:-1]
 
-    # graph
+    # general graph features
     fig, axs = plt.subplots(2)
     fig.set_figwidth(22)
     fig.set_figheight(10)
     fig.suptitle("Spectrogram and Local Scores for "+clip_name)
-    # scores
+    # score line plot - top plot
     axs[0].plot(time_stamps, local_scores)
     axs[0].set_xlim(0,duration)
     axs[0].set_ylim(0,1)
     axs[0].grid(which='major', linestyle='-')
-    # spectro
+    # spectrogram - bottom plot
     Pxx, freqs, bins, im = axs[1].specgram(samples, Fs=sample_rate,
             NFFT=4096, noverlap=2048,
             window=np.hanning(4096), cmap="ocean")
@@ -126,11 +128,12 @@ def local_line_graph(local_scores, clip_name, scores_dir):
     axs[1].set_ylim(0,22050)
     axs[1].grid(which='major', linestyle='-')
 
-    plt.grid(which='major', linestyle='-')
+    # save graph
     plt.savefig(scores_dir+clip_name[:-4]+".png")
 
 
 if __name__ == "__main__":
+    scores_dir = "score_files/AM15_16/"
     args = parse_args()
     
     # Do global graphs
@@ -147,14 +150,16 @@ if __name__ == "__main__":
         box_plot(global_scores)
     # Do local graphs
     else:
-        # collect data
-        for scores_file in os.listdir(SCORES_DIR):
-            local_scores = []
-            if not scores_file.endswith(".txt") or "_DS_" not in scores_file: continue
+        # make graph for each score file in scores_dir
+        for scores_file in os.listdir(scores_dir):
+            # skip if not text file
+            if not scores_file.endswith(".txt"): continue
 
-            with open(SCORES_DIR+scores_file, "r") as f:
+            # convert txt file into array of floats
+            local_scores = []
+            with open(scores_dir+scores_file, "r") as f:
                 for line in f:
                     local_scores.append(float(line.strip()))
 
             # create graph
-            local_line_graph(local_scores, scores_file, SCORES_DIR)
+            local_line_graph(local_scores, scores_file, scores_dir)
