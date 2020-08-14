@@ -11,7 +11,6 @@ import csv
 import argparse
 from scipy.io import wavfile
 import scipy.signal as scipy_signal
-from scipy.io.wavfile import write
 
 
 """
@@ -127,16 +126,27 @@ def calc_local_scores(audio_dir):
         # skip directories
         if os.path.isdir(audio_dir+audio_file): continue
         
-        # read file and downsample
-        sample_rate, samples = wavfile.read(audio_dir + audio_file)
-        rate_ratio = 44100 / sample_rate
-        samples = scipy_signal.resample(samples, int(len(samples)*rate_ratio))
-        sample_rate = 44100
-        # add DS to end of downsampled file
-        new_filename = audio_file[:-4] + "_DS" + audio_file[-4:]
-        # write downsampled file
-        write(audio_dir + new_filename, sample_rate, samples)
-        audio_file = new_filename
+        # read file
+        raw_sample_rate, raw_samples = wavfile.read(audio_dir + audio_file)
+        
+        # downsample the sample if > 44.1 kHz
+        if raw_sample_rate > 44100:
+            rate_ratio = 44100 / raw_sample_rate
+            samples = scipy_signal.resample(
+                    raw_samples, int(len(raw_samples)*rate_ratio))
+            sample_rate = 44100
+            # resample produces unreadable float32 array so convert back
+            samples = np.asarray(samples, dtype=np.int16)
+            
+            # add DS to end of downsampled file
+            new_filename = audio_file[:-4] + "_DS" + audio_file[-4:]
+            audio_file = new_filename
+            
+            # write downsampled file
+            wavfile.write(audio_dir + new_filename, sample_rate, samples)
+        else:
+            sample_rate = raw_sample_rate
+            samples = raw_samples
 
         # detection
         try:
@@ -158,15 +168,15 @@ def calc_local_scores(audio_dir):
         # get duration of clip
         duration = len(samples) / sample_rate
         
-        # isolate bird sounds in the clip by eliminating dead noise
-        isolate(local_score, samples, sample_rate, duration, audio_dir, new_filename)
-        
         # write local score file in chosen directory
         with open("score_files/XCSubset/" + audio_file[:-4]+"_LS.txt", "w") as f:
-            f.write(duration+"\n")
+            f.write(str(duration) + "\n")
             f.write(str(len(local_score))+"\n")
             for sc in local_score:
                 f.write(str(sc) + '\n')
+        
+        # isolate bird sounds in the clip by eliminating dead noise
+        isolate(local_score, samples, sample_rate, duration, audio_dir, audio_file)
 
 
 def isolate(scores, samples, sample_rate, duration, audio_dir, filename):
@@ -175,7 +185,7 @@ def isolate(scores, samples, sample_rate, duration, audio_dir, filename):
     
     # isolate samples that produce a score above thresh
     thresh = 0.1
-    isolated_samples = np.empty(0)
+    isolated_samples = np.empty(0, dtype=np.int16)
     for i in range(len(scores)):
         if scores[i] >= thresh:
             isolated_samples = np.append( isolated_samples, samples[i*scale:(i+1)*scale] )
@@ -187,9 +197,8 @@ def isolate(scores, samples, sample_rate, duration, audio_dir, filename):
             filename, duration, new_duration, percent_reduced))
 
     # write file
-    pdb.set_trace()
     new_filename = filename[:-4] + "_RED" + filename[-4:]
-    write(audio_dir + new_filename, sample_rate, isolated_samples)
+    wavfile.write(audio_dir + new_filename, sample_rate, isolated_samples)
 
 
 if __name__ == '__main__':
