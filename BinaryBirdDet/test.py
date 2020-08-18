@@ -182,14 +182,33 @@ def calc_local_scores(audio_dir):
 def isolate(scores, samples, sample_rate, duration, audio_dir, filename):
     # how many samples does one score represent
     scale = len(samples) // len(scores)
-    
-    # isolate samples that produce a score above thresh
-    thresh = 0.1
     isolated_samples = np.empty(0, dtype=np.int16)
-    for i in range(len(scores)):
-        if scores[i] >= thresh:
-            isolated_samples = np.append( isolated_samples, samples[i*scale:(i+1)*scale] )
     
+    # METHOD 1
+    # isolate samples that produce a score above thresh
+    # thresh = 0.1
+    # indices = []
+    # for i in range(len(scores)):
+    #     if scores[i] >= thresh:
+    #         indices.append(i)
+    #         isolated_samples = np.append( isolated_samples, samples[i*scale:(i+1)*scale] )
+    
+    # METHOD 2
+    # indices, props = scipy_signal.find_peaks(scores)
+    # for i in indices:
+    #     isolated_samples = np.append(isolated_samples, samples[i*scale:(i+1)*scale])
+
+    # METHOD 3
+    indices, props = scipy_signal.find_peaks(samples)
+    for i in indices:
+        isolated_samples = np.append(isolated_samples, samples[i])
+
+    # METHOD 4
+    # indices, props = scipy_signal.find_peaks(samples)
+    # for i in indices:
+    #     lo, hi = max(0, i-scale), min(len(samples), i+scale)
+    #     isolated_samples = np.append(isolated_samples, samples[lo:hi])
+
     # calculate new duration
     new_duration = len(isolated_samples) / sample_rate
     percent_reduced = 1 - (new_duration / duration)
