@@ -176,44 +176,38 @@ def calc_local_scores(audio_dir):
                 f.write(str(sc) + '\n')
         
         # isolate bird sounds in the clip by eliminating dead noise
-        isolate(local_score, samples, sample_rate, duration, audio_dir, audio_file)
+        isolate(local_score, samples, sample_rate, audio_dir, audio_file)
 
 
-def isolate(scores, samples, sample_rate, duration, audio_dir, filename):
-    # how many samples does one score represent
-    scale = len(samples) // len(scores)
-    isolated_samples = np.empty(0, dtype=np.int16)
+def isolate(scores, samples, sample_rate, audio_dir, filename):
+    # treshold is 'thresh_mult' times above average score value
+    thresh_mult = 2
+    thresh = np.average(scores) * thresh_mult
+
+    # how many samples one score represents
+    samples_per_score = len(samples) // len(scores)
     
-    # METHOD 1
     # isolate samples that produce a score above thresh
-    # thresh = 0.1
-    # indices = []
-    # for i in range(len(scores)):
-    #     if scores[i] >= thresh:
-    #         indices.append(i)
-    #         isolated_samples = np.append( isolated_samples, samples[i*scale:(i+1)*scale] )
-    
-    # METHOD 2
-    # indices, props = scipy_signal.find_peaks(scores)
-    # for i in indices:
-    #     isolated_samples = np.append(isolated_samples, samples[i*scale:(i+1)*scale])
-
-    # METHOD 3
-    indices, props = scipy_signal.find_peaks(samples)
-    for i in indices:
-        isolated_samples = np.append(isolated_samples, samples[i])
-
-    # METHOD 4
-    # indices, props = scipy_signal.find_peaks(samples)
-    # for i in indices:
-    #     lo, hi = max(0, i-scale), min(len(samples), i+scale)
-    #     isolated_samples = np.append(isolated_samples, samples[lo:hi])
+    isolated_samples = np.empty(0, dtype=np.int16)
+    prev_cap = 0        # previously captured
+    for i in range(len(scores)):
+        # if a score hits or surpasses thresh, capture 1s on both sides of it
+        if scores[i] >= thresh:
+            # score_pos is the sample that the score corresponds to
+            score_pos = i * samples_per_score
+            # sample rate is # of samples in 1 second
+            lo = max(prev_cap, score_pos - sample_rate)
+            hi = min(len(samples), score_pos + sample_rate)
+            # mark previously captured to prevent overlap collection
+            prev_cap = hi
+            isolated_samples = np.append(isolated_samples, samples[lo:hi])
 
     # calculate new duration
+    old_duration = len(samples) / sample_rate
     new_duration = len(isolated_samples) / sample_rate
-    percent_reduced = 1 - (new_duration / duration)
+    percent_reduced = 1 - (new_duration / old_duration)
     print('Reduced {} from {:.2f}s to {:.2f}s. {:.2%} reduced.'.format( \
-            filename, duration, new_duration, percent_reduced))
+            filename, old_duration, new_duration, percent_reduced))
 
     # write file
     new_filename = filename[:-4] + "_RED" + filename[-4:]
@@ -232,8 +226,9 @@ if __name__ == '__main__':
             home, "../../media/e4e/New Volume/audioset_nonbird/")
     global_dir = os.path.join(
             home, "../../media/e4e/New Volume/XCSelection/Subset/")
-    local_dir = os.path.join(
-            home, "../../media/e4e/New Volume/XCSelection/Subset/")
+    # local_dir = os.path.join(
+    #         home, "../../media/e4e/New Volume/XCSelection/Subset/")
+    local_dir = "./XCSubset/"
 
     # Calculate global scores
     if args.do_global_scores:
