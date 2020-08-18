@@ -218,23 +218,35 @@ def isolate(scores, samples, sample_rate, audio_dir, filename):
     
     # isolate samples that produce a score above thresh
     isolated_samples = np.empty(0, dtype=np.int16)
-    prev_cap = 0        # previously captured
+    prev_cap = 0        # sample idx of previously captured
     for i in range(len(scores)):
         # if a score hits or surpasses thresh, capture 1s on both sides of it
         if scores[i] >= thresh:
-            # score_pos is the sample that the score corresponds to
+            # score_pos is the sample index that the score corresponds to
             score_pos = i * samples_per_score
-            
-            # sample rate is # of samples in 1 second
-            lo = max(prev_cap, score_pos - sample_rate)
-            hi = min(len(samples), score_pos + sample_rate)
-            
-            # mark previously captured to prevent overlap collection
-            prev_cap = hi
-            isolated_samples = np.append(isolated_samples, samples[lo:hi])
+ 
+            # upper and lower bound of captured call
+            # sample rate is # of samples in 1 second: +-1 second
+            lo_idx = max(0, score_pos - sample_rate)
+            hi_idx = min(len(samples), score_pos + sample_rate)
+            lo_time = lo_idx / sample_rate
+            hi_time = hi_idx / sample_rate
             
             # calculate start and end stamps
-            entry['stamps']
+            # create new sample if not overlapping or if first stamp
+            if prev_cap < low_idx or prev_cap == 0:
+                new_stamp = [lo_time, hi_time]
+                entry['stamps'].append(new_stamp)
+            # extend same stamp if still overlappin
+            else:
+                entry['stamps'][-1][1] = hi_time
+
+            # mark previously captured to prevent overlap collection
+            lo_idx = max(prev_cap, lo_idx)
+            prev_cap = hi_idx
+
+            # add to isolated samples
+            isolated_samples = np.append(isolated_samples,samples[lo_idx:hi_idx])
 
     # calculate new duration
     new_duration = len(isolated_samples) / sample_rate
