@@ -120,6 +120,8 @@ def calc_local_scores(audio_dir):
     # TODO optimize detector.predict to not have to take in real file, just numpy arr
     # init detector
     detector = RNNDetector()
+    # init labels dict
+    annotations = []
 
     # generate local scores for every file in chosen directory
     for audio_file in os.listdir(audio_dir):
@@ -176,10 +178,37 @@ def calc_local_scores(audio_dir):
                 f.write(str(sc) + '\n')
         
         # isolate bird sounds in the clip by eliminating dead noise
-        isolate(local_score, samples, sample_rate, audio_dir, audio_file)
+        new_entry = isolate(local_score, samples, sample_rate, audio_dir, audio_file)
+        annotations.append(new_entry)
+
+    # write csv with time stamps and labels
+    header = ["folder","file","duration","start","end","label"]
+    with open("annotations.csv", "w") as f:
+        writer = csv.writer(f)
+        # write titles of columns in capitals
+        write.writerow([i.upper() for i in header])
+        
+        for el in annotations:
+            for i in range(len(el['stamps'])):
+                write.writerow(el['folder'],
+                               el['file'], 
+                               el['duration'],
+                               el['stamps'][i][0], # start time 
+                               el['stamps'][i][1], # end time
+                               el['labels'][i])
 
 
 def isolate(scores, samples, sample_rate, audio_dir, filename):
+    # calculate original duration
+    old_duration = len(samples) / sample_rate
+    
+    # create entry for audio clip
+    entry = {'folder'  : audio_dir,
+             'file'    : filename,
+             'duration': old_duration,
+             'stamps'  : [],
+             'labels'  : []}
+
     # treshold is 'thresh_mult' times above average score value
     thresh_mult = 2
     thresh = np.average(scores) * thresh_mult
@@ -195,24 +224,30 @@ def isolate(scores, samples, sample_rate, audio_dir, filename):
         if scores[i] >= thresh:
             # score_pos is the sample that the score corresponds to
             score_pos = i * samples_per_score
+            
             # sample rate is # of samples in 1 second
             lo = max(prev_cap, score_pos - sample_rate)
             hi = min(len(samples), score_pos + sample_rate)
+            
             # mark previously captured to prevent overlap collection
             prev_cap = hi
             isolated_samples = np.append(isolated_samples, samples[lo:hi])
+            
+            # calculate start and end stamps
+            entry['stamps']
 
     # calculate new duration
-    old_duration = len(samples) / sample_rate
     new_duration = len(isolated_samples) / sample_rate
     percent_reduced = 1 - (new_duration / old_duration)
     print('Reduced {} from {:.2f}s to {:.2f}s. {:.2%} reduced.'.format( \
             filename, old_duration, new_duration, percent_reduced))
-
+        
     # write file
-    new_filename = filename[:-4] + "_RED" + filename[-4:]
-    wavfile.write(audio_dir + new_filename, sample_rate, isolated_samples)
-
+    # new_filename = filename[:-4] + "_RED" + filename[-4:]
+    # wavfile.write(audio_dir + new_filename, sample_rate, isolated_samples)
+    
+    return entry
+    
 
 if __name__ == '__main__':
     args = parse_args()
