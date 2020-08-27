@@ -159,12 +159,11 @@ def classify(data_path, min_psd, max_psd, min_snr, max_snr, min_frq, max_frq):
 
 		# STEP 4: Classify samples
 		if (min_psd <= mean_a <= max_psd) and (min_snr <= c <= max_snr):
-			rain_list.append('{}: Rainfall of intensity {:.2f}'.format(file, mean_a))
+			rain_list.append('{}: Intensity {:.2f}'.format(file, mean_a))
 		elif (max_psd < mean_a) and (min_snr <= c <= max_snr):
-			human_list.append('{}: Rainfall of intensity {:.2f}'.format(file, mean_a))            
+			human_list.append('{}: Intensity {:.2f}'.format(file, mean_a))            
 	#print out list
 	print("----- Wind or Rain -----")
 	print(*rain_list, sep = "\n")
 	print("----- Human Noises or Electrostatic -----")
 	print(*human_list, sep = "\n")
-
