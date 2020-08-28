@@ -118,12 +118,14 @@ line 3+len(local_scores)
 """
 def calc_local_scores(audio_dir):
     # TODO optimize detector.predict to not have to take in real file, just numpy arr
+    # TODO make media threshold
     # init detector
     detector = RNNDetector()
     # init labels dict
     annotations = []
 
-    # generate local scores for every file in chosen directory
+    # generate local scores for every bird file in chosen directory
+    audio_dir += "bird/"
     for audio_file in os.listdir(audio_dir):
         # skip directories
         if os.path.isdir(audio_dir+audio_file): continue
@@ -149,6 +151,10 @@ def calc_local_scores(audio_dir):
         else:
             sample_rate = raw_sample_rate
             samples = raw_samples
+        
+        # convert mono to stereo if needed
+        if len(samples.shape) == 2:
+            samples = samples.sum(axis=1) / 2
 
         # detection
         try:
@@ -181,30 +187,77 @@ def calc_local_scores(audio_dir):
         new_entry = isolate(local_score, samples, sample_rate, audio_dir, audio_file)
         annotations.append(new_entry)
 
+    # generate local scores for every nonbird file in chosen directory
+    audio_dir = audio_dir[:-5]
+    audio_dir += "nonbird/"
+    for audio_file in os.listdir(audio_dir):
+        # skip directories
+        if os.path.isdir(audio_dir+audio_file): continue
+    
+        # read file
+        raw_sample_rate, raw_samples = wavfile.read(audio_dir + audio_file)
+        
+        # downsample the sample if > 44.1 kHz
+        if raw_sample_rate > 44100:
+            rate_ratio = 44100 / raw_sample_rate
+            samples = scipy_signal.resample(
+                    raw_samples, int(len(raw_samples)*rate_ratio))
+            sample_rate = 44100
+            # resample produces unreadable float32 array so convert back
+            samples = np.asarray(samples, dtype=np.int16)
+            
+            # add DS to end of downsampled file
+            new_filename = audio_file[:-4] + "_DS" + audio_file[-4:]
+            audio_file = new_filename
+            
+            # write downsampled file
+            wavfile.write(audio_dir + new_filename, sample_rate, samples)
+        else:
+            sample_rate = raw_sample_rate
+            samples = raw_samples
+        
+        # convert mono to stereo if needed
+        if len(samples.shape) == 2:
+            samples = samples.sum(axis=1) / 2
+
+        # get duration of clip
+        duration = len(samples) / sample_rate
+
+        # create entry for audio clip
+        new_entry = {'folder'  : audio_dir,
+                     'file'    : audio_file,
+                     'channel' : 0,
+                     'duration': duration,
+                     'stamps'  : [[0,duration]],
+                     'labels'  : [0]}
+        annotations.append(new_entry)
+
     # write csv with time stamps and labels
-    header = ["folder","file","duration","start","end","label"]
+    header = ["FOLDER","IN FILE","CHANNEL","OFFSET","DURATION","MANUAL ID"]
     with open("annotations.csv", "w") as f:
         writer = csv.writer(f)
-        # write titles of columns in capitals
-        write.writerow([i.upper() for i in header])
+        # write titles of columns
+        writer.writerow(header)
         
         for el in annotations:
             for i in range(len(el['stamps'])):
-                write.writerow(el['folder'],
-                               el['file'], 
-                               el['duration'],
-                               el['stamps'][i][0], # start time 
-                               el['stamps'][i][1], # end time
-                               el['labels'][i])
+                clip_duration = el['stamps'][i][1] - el['stamps'][i][0]
+                writer.writerow([el['folder'],
+                                 el['file'], 
+                                 el['channel'],
+                                 el['stamps'][i][0], # start time or offset 
+                                 clip_duration, # end - start
+                                 el['labels'][i]])
 
 
 def isolate(scores, samples, sample_rate, audio_dir, filename):
     # calculate original duration
     old_duration = len(samples) / sample_rate
-    
+
     # create entry for audio clip
     entry = {'folder'  : audio_dir,
              'file'    : filename,
+             'channel' : 0,
              'duration': old_duration,
              'stamps'  : [],
              'labels'  : []}
@@ -234,10 +287,11 @@ def isolate(scores, samples, sample_rate, audio_dir, filename):
             
             # calculate start and end stamps
             # create new sample if not overlapping or if first stamp
-            if prev_cap < low_idx or prev_cap == 0:
+            if prev_cap < lo_idx or prev_cap == 0:
                 new_stamp = [lo_time, hi_time]
                 entry['stamps'].append(new_stamp)
-            # extend same stamp if still overlappin
+                entry['labels'].append(1)
+            # extend same stamp if still overlapping
             else:
                 entry['stamps'][-1][1] = hi_time
 
