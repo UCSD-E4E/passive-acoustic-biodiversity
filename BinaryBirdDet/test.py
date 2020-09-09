@@ -116,29 +116,27 @@ line 3: one local score each line
 ...
 line 3+len(local_scores)
 """
-def calc_local_scores(audio_dir):
+def calc_local_scores(bird_dir, nonbird_dir):
     # TODO optimize detector.predict to not have to take in real file, just numpy arr
-    # TODO make media threshold
     # init detector
     detector = RNNDetector()
     # init labels dict
     annotations = []
 
     # generate local scores for every bird file in chosen directory
-    audio_dir += "bird/"
-    for audio_file in os.listdir(audio_dir):
+    for audio_file in os.listdir(bird_dir):
         # skip directories
-        if os.path.isdir(audio_dir+audio_file): continue
+        if os.path.isdir(bird_dir+audio_file): continue
         
         # read file
-        raw_sample_rate, raw_samples = wavfile.read(audio_dir + audio_file)
+        raw_sample_rate, raw_samples = wavfile.read(bird_dir + audio_file)
         
-        # downsample the sample if > 44.1 kHz
-        if raw_sample_rate > 44100:
-            rate_ratio = 44100 / raw_sample_rate
+        # downsample the sample if > 22.05 kHz
+        if raw_sample_rate > 22050:
+            rate_ratio = 22050 / raw_sample_rate
             samples = scipy_signal.resample(
                     raw_samples, int(len(raw_samples)*rate_ratio))
-            sample_rate = 44100
+            sample_rate = 22050
             # resample produces unreadable float32 array so convert back
             samples = np.asarray(samples, dtype=np.int16)
             
@@ -147,7 +145,7 @@ def calc_local_scores(audio_dir):
             audio_file = new_filename
             
             # write downsampled file
-            wavfile.write(audio_dir + new_filename, sample_rate, samples)
+            wavfile.write(bird_dir + new_filename, sample_rate, samples)
         else:
             sample_rate = raw_sample_rate
             samples = raw_samples
@@ -160,11 +158,11 @@ def calc_local_scores(audio_dir):
         try:
             # for wavs
             if audio_file.lower().endswith('.wav'):
-                _, local_score = detector.predict_on_wav(audio_dir + audio_file)
+                _, local_score = detector.predict_on_wav(bird_dir + audio_file)
                 print("Loaded", audio_file)
             # for mp3s
             elif audio_file.lower().endswith('.mp3'):
-                _, local_score = detector.predict(audio_dir + audio_file)
+                _, local_score = detector.predict(bird_dir + audio_file)
                 print("Loaded", audio_file)
             else:
                 print("Invalid file extension, skipping", audio_file)
@@ -177,6 +175,8 @@ def calc_local_scores(audio_dir):
         duration = len(samples) / sample_rate
         
         # write local score file in chosen directory
+        # not needed for csv output to opensoundscape
+        # needed for matplotlib graph of local scores
         with open("score_files/XCSubset/" + audio_file[:-4]+"_LS.txt", "w") as f:
             f.write(str(duration) + "\n")
             f.write(str(len(local_score))+"\n")
@@ -184,25 +184,23 @@ def calc_local_scores(audio_dir):
                 f.write(str(sc) + '\n')
         
         # isolate bird sounds in the clip by eliminating dead noise
-        new_entry = isolate(local_score, samples, sample_rate, audio_dir, audio_file)
+        new_entry = isolate(local_score, samples, sample_rate, bird_dir, audio_file)
         annotations.append(new_entry)
 
     # generate local scores for every nonbird file in chosen directory
-    audio_dir = audio_dir[:-5]
-    audio_dir += "nonbird/"
-    for audio_file in os.listdir(audio_dir):
+    for audio_file in os.listdir(nonbird_dir):
         # skip directories
-        if os.path.isdir(audio_dir+audio_file): continue
+        if os.path.isdir(nonbird_dir+audio_file): continue
     
         # read file
-        raw_sample_rate, raw_samples = wavfile.read(audio_dir + audio_file)
+        raw_sample_rate, raw_samples = wavfile.read(nonbird_dir + audio_file)
         
         # downsample the sample if > 44.1 kHz
-        if raw_sample_rate > 44100:
-            rate_ratio = 44100 / raw_sample_rate
+        if raw_sample_rate > 22050:
+            rate_ratio = 22050 / raw_sample_rate
             samples = scipy_signal.resample(
                     raw_samples, int(len(raw_samples)*rate_ratio))
-            sample_rate = 44100
+            sample_rate = 22050
             # resample produces unreadable float32 array so convert back
             samples = np.asarray(samples, dtype=np.int16)
             
@@ -211,7 +209,7 @@ def calc_local_scores(audio_dir):
             audio_file = new_filename
             
             # write downsampled file
-            wavfile.write(audio_dir + new_filename, sample_rate, samples)
+            wavfile.write(nonbird_dir + new_filename, sample_rate, samples)
         else:
             sample_rate = raw_sample_rate
             samples = raw_samples
@@ -224,7 +222,7 @@ def calc_local_scores(audio_dir):
         duration = len(samples) / sample_rate
 
         # create entry for audio clip
-        new_entry = {'folder'  : audio_dir,
+        new_entry = {'folder'  : nonbird_dir,
                      'file'    : audio_file,
                      'channel' : 0,
                      'duration': duration,
@@ -262,9 +260,9 @@ def isolate(scores, samples, sample_rate, audio_dir, filename):
              'stamps'  : [],
              'labels'  : []}
 
-    # treshold is 'thresh_mult' times above average score value
+    # treshold is 'thresh_mult' times above median score value
     thresh_mult = 2
-    thresh = np.average(scores) * thresh_mult
+    thresh = np.median(scores) * thresh_mult
 
     # how many samples one score represents
     samples_per_score = len(samples) // len(scores)
@@ -300,6 +298,7 @@ def isolate(scores, samples, sample_rate, audio_dir, filename):
             prev_cap = hi_idx
 
             # add to isolated samples
+            # sub-clip numpy array
             isolated_samples = np.append(isolated_samples,samples[lo_idx:hi_idx])
 
     # calculate new duration
@@ -329,7 +328,10 @@ if __name__ == '__main__':
             home, "../../media/e4e/New Volume/XCSelection/Subset/")
     # local_dir = os.path.join(
     #         home, "../../media/e4e/New Volume/XCSelection/Subset/")
-    local_dir = "./XCSubset/"
+    local_bird_dir = os.path.join(
+            home, "../../media/e4e/Rainforest_Data1/XCSelectionTrain/")
+    local_nonbird_dir = os.path.join(
+            home, "../../media/e4e/Rainforest_Data1/audioset_nonbird_train/")
 
     # Calculate global scores
     if args.do_global_scores:
@@ -370,4 +372,4 @@ if __name__ == '__main__':
 
     # Calculate local scores
     else:
-        calc_local_scores(local_dir)
+        calc_local_scores(local_bird_dir, local_nonbird_dir)

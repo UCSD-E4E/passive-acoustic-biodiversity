@@ -102,8 +102,10 @@ def local_line_graph(local_scores, clip_name, scores_dir):
     sample_rate, samples = wavfile.read(wav_name)
 
     # calculate time stamps - x axis
+    # takes first two lines
     duration = local_scores.pop(0)
     num_scores = local_scores.pop(0)
+
     step = duration / num_scores
     time_stamps = np.arange(0, duration, step)
 
