@@ -26,6 +26,7 @@ def isolate(scores, samples, sample_rate, audio_dir, filename):
              'IN FILE'    : filename,
              'CHANNEL' : 0,
              'CLIP LENGTH': old_duration,
+             'SAMPLE RATE': sample_rate,
              'OFFSET'  : [],
              'MANUAL ID'  : []}
 
@@ -89,7 +90,7 @@ def isolate(scores, samples, sample_rate, audio_dir, filename):
 
 
 ## Function that applies the moment to moment labeling system to a directory full of wav files.
-def calc_local_scores(bird_dir,weight_path=None):
+def calc_local_scores(bird_dir,weight_path=None, Normalized_Sample_Rate = 44100):
     # init detector
     # Use Default Microfaune Detector
     if weight_path is None:
@@ -110,11 +111,12 @@ def calc_local_scores(bird_dir,weight_path=None):
         
         # downsample the audio if the sample rate > 44.1 kHz
         # Force everything into the human hearing range.
-        if SAMPLE_RATE > 44100:
-            rate_ratio = 44100 / SAMPLE_RATE
+        # May consider reworking this function so that it upsamples as well
+        if SAMPLE_RATE > Normalized_Sample_Rate:
+            rate_ratio = Normalized_Sample_Rate / SAMPLE_RATE
             SIGNAL = scipy_signal.resample(
                     SIGNAL, int(len(SIGNAL)*rate_ratio))
-            SAMPLE_RATE = 44100
+            SAMPLE_RATE = Normalized_Sample_Rate
             # resample produces unreadable float32 array so convert back
             #SIGNAL = np.asarray(SIGNAL, dtype=np.int16)
             
@@ -169,7 +171,6 @@ def local_line_graph(local_scores,clip_name, sample_rate,samples, automated_df=N
     axs[0].set_xlim(0,duration)
     axs[0].set_ylim(0,1)
     axs[0].grid(which='major', linestyle='-')
-    # TODO Add on a legend for the colors so the viewer can differentiate between human and automated labels.
     # Adding in the optional automated labels from a Pandas DataFrame
     if automated_df.empty == False:
         ndx = 0
@@ -238,3 +239,141 @@ def local_score_visualization(clip_path,weight_path = None, human_df = None,auto
         automated_df = pd.DataFrame()
         
     local_line_graph(local_score[0].tolist(),clip_path,SAMPLE_RATE,SIGNAL,automated_df,human_df, save_fig = save_fig)
+def bird_label_scores(automated_df,human_df,plot_fig = False, save_fig = False):
+
+    duration = automated_df["CLIP LENGTH"].to_list()[0]
+    SAMPLE_RATE = automated_df["SAMPLE RATE"].to_list()[0]
+    # Initializing two arrays that will represent the human labels and automated labels with respect to 
+    # the audio clip
+    #print(SIGNAL.shape)
+    human_arr = np.zeros((int(SAMPLE_RATE*duration),))
+    bot_arr = np.zeros((int(SAMPLE_RATE*duration),))
+    
+    folder_name = automated_df["FOLDER"].to_list()[0]
+    clip_name = automated_df["IN FILE"].to_list()[0]
+    # Placing 1s wherever the au
+    for row in automated_df.index:
+        minval = int(round(automated_df["OFFSET"][row]*SAMPLE_RATE,0))
+        maxval = int(round((automated_df["OFFSET"][row] + automated_df["DURATION"][row]) *SAMPLE_RATE,0))
+        bot_arr[minval:maxval] = 1
+    for row in human_df.index:
+        minval = int(round(human_df["OFFSET"][row]*SAMPLE_RATE,0))
+        maxval = int(round((human_df["OFFSET"][row] + human_df["DURATION"][row])*SAMPLE_RATE,0))
+        human_arr[minval:maxval] = 1
+        
+    human_arr_flipped = 1 - human_arr
+    bot_arr_flipped = 1 - bot_arr
+    
+    true_positive_arr = human_arr*bot_arr
+    false_negative_arr = human_arr * bot_arr_flipped
+    false_positive_arr = human_arr_flipped * bot_arr
+    true_negative_arr = human_arr_flipped * bot_arr_flipped
+    
+    true_positive_count = np.count_nonzero(true_positive_arr == 1)/SAMPLE_RATE
+    false_negative_count = np.count_nonzero(false_negative_arr == 1)/SAMPLE_RATE
+    false_positive_count = np.count_nonzero(false_positive_arr == 1)/SAMPLE_RATE
+    true_negative_count = np.count_nonzero(true_negative_arr == 1)/SAMPLE_RATE
+    
+    # Calculating useful values related to tp,fn,fp,tn values
+    
+    # Precision = TP/(TP+FP)
+    try:
+        precision = true_positive_count/(true_positive_count + false_positive_count)
+    
+    
+    # Recall = TP/(TP+FP)
+        recall = true_positive_count/(true_positive_count + false_negative_count)
+    
+    # F1 = 2*(Recall*Precision)/(Recall + Precision)
+    
+        f1 = 2*(recall*precision)/(recall + precision)
+    except:
+        print("Error calculating statistics, likely due to zero division, setting values to zero")
+        f1 = 0
+        precision = 0
+        recall = 0
+
+    # Creating a Dictionary which will be turned into a Pandas Dataframe
+    entry = {'FOLDER'  : folder_name,
+             'IN FILE'    : clip_name,
+             'TRUE POSITIVE' : true_positive_count,
+             'FALSE POSITIVE': false_positive_count,
+             'FALSE NEGATIVE'  : false_negative_count,
+             'TRUE NEGATIVE'  : true_negative_count,
+             'PRECISION' : precision,
+             'RECALL' : recall,
+             "F1" : f1}
+    #print(entry)
+    # Plotting the three arrays to visualize where 
+    if plot_fig == True:
+        plt.figure(figsize=(22,10))
+        plt.subplot(6,1,1)
+        plt.plot(human_arr)
+        plt.title("Ground Truth for " + clip_name)
+        plt.subplot(6,1,2)
+        plt.plot(bot_arr)
+        plt.title("Automated Label for " + clip_name)
+        
+        #Visualizing True Positives for the Automated Labeling
+        plt.subplot(6,1,3)
+        plt.plot(true_positive_arr)
+        plt.title("True Positive for " + clip_name)
+        
+        #Visualizing False Negatives for the Automated Labeling
+        plt.subplot(6,1,4)
+        plt.plot(false_negative_arr)
+        plt.title("False Negative for " + clip_name)
+        
+        plt.subplot(6,1,5)
+        plt.plot(false_positive_arr)
+        plt.title("False Positive for " + clip_name)
+        
+        plt.subplot(6,1,6)
+        plt.plot(true_negative_arr)
+        plt.title("True Negative for " + clip_name)
+        
+        plt.tight_layout()
+        if save_fig == True:
+            x = clip_name.split(".")
+            clip_name = x[0]
+            plt.save_fig(clip_name + "_label_plot.png")
+
+    return pd.DataFrame(entry,index=[0])
+
+# Function that will allow users to easily pass in two dataframes, and it will output statistics on them
+# Will have to adjust the isolate function so that it adds a sampling rate onto the dataframes.
+def automated_labeling_statistics(automated_df,manual_df):
+    # Getting a list of clips
+    clips = automated_df["IN FILE"].to_list()
+    # Removing duplicates
+    clips = list(dict.fromkeys(clips))
+    # Initializing the returned dataframe
+    statistics_df = pd.DataFrame()
+    # Looping through each audio clip
+    for clip in clips:
+        clip_automated_df = automated_df[automated_df["IN FILE"] == clip]
+        clip_manual_df = manual_df[manual_df["IN FILE"] == clip]
+        #try:
+        clip_stats_df = bird_label_scores(clip_automated_df,clip_manual_df)
+        if statistics_df.empty:
+            statistics_df = clip_stats_df
+        else:
+            statistics_df = statistics_df.append(clip_stats_df)
+        #except:
+        #    print("Something went wrong with: "+clip)
+        #    continue
+    return statistics_df
+
+# Small function that takes in the statistics and outputs their global values
+def global_dataset_statistics(statistics_df):
+    tp_sum = statistics_df["TRUE POSITIVE"].sum()
+    fp_sum = statistics_df["FALSE POSITIVE"].sum()
+    fn_sum = statistics_df["FALSE NEGATIVE"].sum()
+    tn_sum = statistics_df["TRUE NEGATIVE"].sum()
+    precision = tp_sum/(tp_sum + fp_sum)
+    recall = tp_sum/(tp_sum + fn_sum)
+    f1 = 2*(precision*recall)/(precision+recall)
+    # "{:10d}".format(x));
+    print("Dataset Precision: " + "{:10f}".format(round(precision,6)))
+    print("Dataset Recall: " + "{:13f}".format(round(recall,6)))
+    print("Dataset F1: " + "{:17f}".format(round(f1,6)))
