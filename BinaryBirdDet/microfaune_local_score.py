@@ -79,12 +79,14 @@ def isolate(scores, samples, sample_rate, audio_dir, filename):
     # Making the necessary adjustments to the Pandas Dataframe so that it is compatible with Kaleidoscope.
     ## TODO, when you go through the process of rebuilding this isolate function as a potential optimization problem
     ## rework the algorithm so that it builds the dataframe correctly to save time.
+    #print(entry["OFFSET"].tolist())
+    # This solution is not system agnostic. The problem is that Gabriel stored the start and stop times as a list under the OFFSET column.
     OFFSET = entry['OFFSET'].str[0]
     DURATION = entry['OFFSET'].str[1]
     DURATION = DURATION - OFFSET
     # Adding a new "DURATION" Column
     # Making compatible with Kaleidoscope
-    entry.insert(5,"DURATION",DURATION)
+    entry.insert(6,"DURATION",DURATION)
     entry["OFFSET"] = OFFSET
     return entry
 
@@ -136,14 +138,17 @@ def calc_local_scores(bird_dir,weight_path=None, Normalized_Sample_Rate = 44100)
         
         # get duration of clip
         duration = len(SIGNAL) / SAMPLE_RATE
-        
-        # Running moment to moment algorithm and appending to a master dataframe.
-        new_entry = isolate(local_scores[0], SIGNAL, SAMPLE_RATE, bird_dir, audio_file)
-        #print(new_entry)
-        if annotations.empty == True:
-            annotations = new_entry
-        else:
-            annotations = annotations.append(new_entry)
+        try:
+             # Running moment to moment algorithm and appending to a master dataframe.
+            new_entry = isolate(local_scores[0], SIGNAL, SAMPLE_RATE, bird_dir, audio_file)
+             #print(new_entry)
+            if annotations.empty == True:
+                annotations = new_entry
+            else:
+                annotations = annotations.append(new_entry)
+        except:
+	    print("Error in isolating bird calls from", audio_file)
+            continue
 
     return annotations
 
