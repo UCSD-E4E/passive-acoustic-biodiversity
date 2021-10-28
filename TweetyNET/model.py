@@ -7,6 +7,10 @@ from .network import TweetyNet
 
 def acc(y_pred, y):
     return y_pred.eq(y.view_as(y_pred)).sum().item() / np.prod(y.shape)
+"""
+This is the model described in the TweetyNet Paper: https://www.biorxiv.org/content/10.1101/2020.08.28.272088v1.full
+We do not use it because VAK does not work properly
+"""
 
 
 class TweetyNetModel(vak.Model):

@@ -1,4 +1,8 @@
-"""TweetyNet model"""
+"""
+TweetyNet model
+These are the custom Convolutional 2D layers that have a similar padding behvior as Tensorflow
+, but in Pytorch
+"""
 import torch
 from torch import nn
 from torch.nn import functional as F
@@ -68,6 +72,49 @@ class Conv2dTF(nn.Conv2d):
                 groups=self.groups,
             )
 
+"""
+The TweetyNet Model Architecture in Pytorch
+initialize TweetyNet model
+
+Parameters
+----------
+num_classes : int
+    number of classes to predict, e.g., number of syllable classes in an individual bird's song
+input_shape : tuple
+    with 3 elements corresponding to dimensions of spectrogram windows: (channels, frequency bins, time bins).
+    i.e. we assume input is a spectrogram and treat it like an image, typically with one channel,
+    the rows are frequency bins, and the columns are time bins. Default is (1, 513, 88).
+padding : str
+    type of padding to use, one of {"valid", "same"}. Default is "same".
+conv1_filters : int
+    Number of filters in first convolutional layer. Default is 32.
+conv1_kernel_size : tuple
+    Size of kernels, i.e. filters, in first convolutional layer. Default is (5, 5).
+conv2_filters : int
+    Number of filters in second convolutional layer. Default is 64.
+conv2_kernel_size : tuple
+    Size of kernels, i.e. filters, in second convolutional layer. Default is (5, 5).
+pool1_size : two element tuple of ints
+    Size of sliding window for first max pooling layer. Default is (1, 8)
+pool1_stride : two element tuple of ints
+    Step size for sliding window of first max pooling layer. Default is (1, 8)
+pool2_size : two element tuple of ints
+    Size of sliding window for second max pooling layer. Default is (1, 8),
+pool2_stride : two element tuple of ints
+    Step size for sliding window of second max pooling layer. Default is (1, 8)
+hidden_size : int
+    number of features in the hidden state ``h``. Default is None,
+    in which case ``hidden_size`` is set to the dimensionality of the
+    output of the convolutional neural network. This default maintains
+    the original behavior of the network.
+rnn_dropout : float
+    If non-zero, introduces a Dropout layer on the outputs of each LSTM layer except the last layer,
+    with dropout probability equal to dropout. Default: 0
+num_layers : int
+    Number of recurrent layers. Default is 1.
+bidirectional : bool
+    If True, make LSTM bidirectional. Default is True.
+"""
 
 class TweetyNet(nn.Module):
     def __init__(self,
@@ -87,47 +134,6 @@ class TweetyNet(nn.Module):
                  num_layers=1,
                  bidirectional=True,
                  ):
-        """initialize TweetyNet model
-
-        Parameters
-        ----------
-        num_classes : int
-            number of classes to predict, e.g., number of syllable classes in an individual bird's song
-        input_shape : tuple
-            with 3 elements corresponding to dimensions of spectrogram windows: (channels, frequency bins, time bins).
-            i.e. we assume input is a spectrogram and treat it like an image, typically with one channel,
-            the rows are frequency bins, and the columns are time bins. Default is (1, 513, 88).
-        padding : str
-            type of padding to use, one of {"valid", "same"}. Default is "same".
-        conv1_filters : int
-            Number of filters in first convolutional layer. Default is 32.
-        conv1_kernel_size : tuple
-            Size of kernels, i.e. filters, in first convolutional layer. Default is (5, 5).
-        conv2_filters : int
-            Number of filters in second convolutional layer. Default is 64.
-        conv2_kernel_size : tuple
-            Size of kernels, i.e. filters, in second convolutional layer. Default is (5, 5).
-        pool1_size : two element tuple of ints
-            Size of sliding window for first max pooling layer. Default is (1, 8)
-        pool1_stride : two element tuple of ints
-            Step size for sliding window of first max pooling layer. Default is (1, 8)
-        pool2_size : two element tuple of ints
-            Size of sliding window for second max pooling layer. Default is (1, 8),
-        pool2_stride : two element tuple of ints
-            Step size for sliding window of second max pooling layer. Default is (1, 8)
-        hidden_size : int
-            number of features in the hidden state ``h``. Default is None,
-            in which case ``hidden_size`` is set to the dimensionality of the
-            output of the convolutional neural network. This default maintains
-            the original behavior of the network.
-        rnn_dropout : float
-            If non-zero, introduces a Dropout layer on the outputs of each LSTM layer except the last layer,
-            with dropout probability equal to dropout. Default: 0
-        num_layers : int
-            Number of recurrent layers. Default is 1.
-        bidirectional : bool
-            If True, make LSTM bidirectional. Default is True.
-        """
         super().__init__()
         self.num_classes = num_classes
         self.input_shape = input_shape
