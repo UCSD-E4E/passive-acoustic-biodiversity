@@ -6,6 +6,10 @@ import torch
 from torch.utils.data import DataLoader
 from network import TweetyNet
 from EvaluationFunctions import frame_error, syllable_edit_distance
+from microfaune.audio import wav2spc, create_spec, load_wav
+from CustomAudioDataset import CustomAudioDataset
+from datetime import datetime
+
 
 
 """
@@ -47,12 +51,12 @@ class TweetyNetModel:
         self.n_train_examples = self.batchsize *30 
         self.n_valid_examples = self.batchsize *10 
 
-"""
-Function: print_results
-Input: history is a dictionary of the loss, accuracy, and edit distance at each epoch
-output: None
-purpose: Print the results from training
-"""
+    """
+    Function: print_results
+    Input: history is a dictionary of the loss, accuracy, and edit distance at each epoch
+    output: None
+    purpose: Print the results from training
+    """
     @staticmethod
     def print_results(history, show_plots=False, save_plots=True):
         plt.figure(figsize=(9, 6))
@@ -270,3 +274,32 @@ purpose: Print the results from training
         test_out = self.testing_step(test_data_loader)
         return test_out
 
+    def load_weights(self, model_weights):
+        self.model.load_state_dict(torch.load(model_weights))
+   
+    def test_path(self, wav_path, n_mels):
+        test_spectrogram =  wav2spc(wav_path, n_mels=n_mels)
+        print(test_spectrogram.shape)
+        wav_data = CustomAudioDataset( test_spectrogram, [0]*test_spectrogram.shape[1], wav_path)
+        test_data_loader = DataLoader(wav_data, batch_size=1)
+        test_out = self.test_a_file(test_data_loader)
+        return test_out
+
+    def test_a_file(self, test_loader):
+        predictions = pd.DataFrame()
+        self.model.eval()
+        with torch.no_grad():
+            for i, data in enumerate(test_loader):
+                inputs, labels, uids = data
+                print(inputs)
+                print(labels)
+                print(uids)
+                inputs = inputs.reshape(inputs.shape[0], 1, inputs.shape[0], inputs.shape[1])
+                inputs, labels = inputs.to(self.device), labels.to(self.device)
+
+                output = self.model(inputs, inputs.shape[0], inputs.shape[0])
+                pred = torch.argmax(output, dim=1)
+                d = {"uid": uid, "pred": pred.flatten(), "label": labels.flatten()}
+                new_preds = pd.DataFrame(d)
+                predictions = predictions.append(new_preds)
+        return predictions
