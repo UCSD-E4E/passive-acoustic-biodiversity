@@ -1,20 +1,18 @@
-name: base
+name: species-id
 channels:
   - conda-forge
   - defaults
 dependencies:
-  - conda
-  - python=3.7
-  - conda-env
-  - conda-build
-  - conda-verify
-  - _ipyw_jlab_nb_ext_conf
-  - anaconda
-  - anaconda-navigator
-  - navigator-updater
-  - nb_conda_kernels
+  - python=3.7.9
+  - jupyter
+  - matplotlib=3.3.1
+  - numpy=1.19.1
+  - librosa=0.8.0
+  - tensorflow-gpu=1.15.0
+  - scipy
+  - sox
+  - multipledispatch
+  - pandas
+  - pytorch
   - pip
-  - notebook
-  - ipykernel
-  - widgetsnbextension
-prefix: /home/e4e/anaconda3
+prefix: /home/e4e/anaconda3/envs/species-id
