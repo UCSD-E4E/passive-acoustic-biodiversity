@@ -1,0 +1,18 @@
+name: species-id
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.7.9
+  - jupyter
+  - matplotlib=3.3.1
+  - numpy=1.19.1
+  - librosa=0.8.0
+  - tensorflow-gpu=1.15.0
+  - scipy
+  - sox
+  - multipledispatch
+  - pandas
+  - pytorch
+  - pip
+prefix: /home/e4e/anaconda3/envs/species-id
