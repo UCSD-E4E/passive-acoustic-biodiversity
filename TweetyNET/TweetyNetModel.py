@@ -234,8 +234,6 @@ class TweetyNetModel:
                 torch.save(self.model.state_dict(), "best_model_weights.h5")
                 history["best_weights"] = history["val_acc"][-1]
 
-
-
     """
     Function: testing_step
     Input: test_loader is the test dataset
