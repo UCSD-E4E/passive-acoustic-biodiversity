@@ -6,7 +6,7 @@ import torch
 from torch.utils.data import DataLoader
 from network import TweetyNet
 from EvaluationFunctions import frame_error, syllable_edit_distance
-from microfaune.audio import wav2spc, create_spec, load_wav
+#from microfaune.audio import wav2spc, create_spec, load_wav
 from CustomAudioDataset import CustomAudioDataset
 from datetime import datetime
 
@@ -161,11 +161,17 @@ class TweetyNetModel:
             for i, data in enumerate(train_loader):
                 inputs, labels, _ = data
                 inputs = inputs.reshape(inputs.shape[0], 1, inputs.shape[1], inputs.shape[2])
+                
+                print(labels.dtype)
+                labels = labels.long()
+                print(labels.dtype)
+
                 inputs, labels = inputs.to(self.device), labels.to(self.device)
                 self.optimizer.zero_grad()
-                output = self.model(inputs, inputs.shape[0], labels.shape[0])
-                if self.binary:
-                    labels = torch.from_numpy((np.array([[x] * output.shape[-1] for x in labels])))
+                output = self.model(inputs, inputs.shape[0], labels.shape[0])   # ones and zeros, temporal bird annotations.
+                #if self.binary:
+                #    labels = torch.from_numpy((np.array([[x] * output.shape[-1] for x in labels])))
+                
                 loss = self.criterion(output, labels)
                 loss.backward()
                 self.optimizer.step()
@@ -205,11 +211,14 @@ class TweetyNetModel:
             for i, data in enumerate(val_loader):
                 inputs, labels, _ = data
                 inputs = inputs.reshape(inputs.shape[0], 1, inputs.shape[1], inputs.shape[2])
+                print(labels.dtype)
+                labels = labels.long()
+                print(labels.dtype)
                 inputs, labels = inputs.to(self.device), labels.to(self.device)
 
                 output = self.model(inputs, inputs.shape[0], labels.shape[0])
-                if self.binary:
-                    labels = torch.from_numpy((np.array([[x] * output.shape[-1] for x in labels])))
+                #if self.binary:
+                #    labels = torch.from_numpy((np.array([[x] * output.shape[-1] for x in labels])))
                 loss = self.criterion(output, labels)
                 # get statistics
                 val_loss += loss.item()
@@ -225,8 +234,6 @@ class TweetyNetModel:
                 torch.save(self.model.state_dict(), "best_model_weights.h5")
                 history["best_weights"] = history["val_acc"][-1]
 
-
-
     """
     Function: testing_step
     Input: test_loader is the test dataset
@@ -240,6 +247,9 @@ class TweetyNetModel:
             for i, data in enumerate(test_loader):
                 inputs, labels, uids = data
                 inputs = inputs.reshape(inputs.shape[0], 1, inputs.shape[1], inputs.shape[2])
+                print(labels.dtype)
+                labels = labels.long()
+                print(labels.dtype)
                 inputs, labels = inputs.to(self.device), labels.to(self.device)
 
                 output = self.model(inputs, inputs.shape[0], labels.shape[0])

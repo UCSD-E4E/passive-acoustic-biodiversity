@@ -16,7 +16,8 @@ from torch.utils.data import DataLoader
 from network import TweetyNet
 import librosa
 from librosa import display
-from microfaune.audio import wav2spc, create_spec, load_wav
+#from microfaune.audio import wav2spc, create_spec, load_wav
+from TweetyNetAudio import wav2spc, create_spec, load_wav
 from glob import glob
 import random
 import scipy.signal as scipy_signal
@@ -33,6 +34,7 @@ def find_tags(data_path, folder):
     fnames = os.listdir(os.path.join(data_path, "temporal_annotations_nips4b"))
     csvs = []
     for f in fnames:
+        #print(f)
         csvs.append(pd.read_csv(os.path.join(data_path, "temporal_annotations_nips4b", f), index_col=False, names=["start", "duration", "tag"]))
     return csvs
 
@@ -68,11 +70,17 @@ def load_dataset(data_path, folder, SR, n_mels, frame_size, hop_length, nonBird_
 
 def compute_feature(data_path, folder, SR, n_mels, frame_size, hop_length, nonBird_labels, found):
     print(f"Compute features for dataset {os.path.basename(data_path)}")
+    
     features = {"uids": [], "X": [], "Y": []}
+    
     filenames = os.listdir(os.path.join(data_path, folder))
+    
     "Recordings in the format of nips4b_birds_{folder}filexxx.wav"
+    
     "annotations in the format annotation_{folder}xxx.csv"
+    
     tags = create_tags(data_path, folder)
+    
     for f in filenames:
 		#signal, SR = downsampled_mono_audio(signal, sample_rate, SR)
         spc = wav2spc(os.path.join(data_path, folder, f), fs=SR, n_mels=n_mels)
@@ -153,7 +161,7 @@ def main():
     #needs at least 80 for mel spectrograms ## may be able to do a little less, but must be greater than 60
     n_mels=72 # The closest we can get tmeporally is 72 with an output of 432 : i think it depends on whats good
     #this number should be proportional to the length of the videos.
-    datasets_dir = "/Users/mugetronblue/E4E/AcousticSpecies/passive-acoustic-biodiversity/TweetyNET/data/NIPS4BPlus"
+    datasets_dir = "C:\\Users\lianl\Repositories\passive-acoustic-biodiversity\TweetyNET\\NIPS4B_BIRD_CHALLENGE_TRAIN_TEST_WAV"
     #datasets_dir = "/home/e4e/e4e_nas_aid/nips4bplus/NIPS4BPlus"
     nonBird_labels = ["Plasab_song", "Unknown", "Tibtom_song", "Lyrple_song", "Plaaff_song", "Pelgra_call", "Cicatr_song", "Cicorn_song", "Tetpyg_song", "Ptehey_song"]
     found = {"Plasab_song": 0, "Unknown": 0, "Tibtom_song": 0, "Lyrple_song": 0, "Plaaff_song": 0, "Pelgra_call": 0, "Cicatr_song": 0, "Cicorn_song": 0, "Tetpyg_song": 0, "Ptehey_song": 0}
