@@ -1,5 +1,9 @@
 # Models for Unsupervised Sound Separation of Bird Calls Using Mixture Invariant Training.
 
+## Please refer to this repository for pretrained model, scripts etc.
+
+https://github.com/google-research/sound-separation/tree/master/models/bird_mixit
+
 These are instructions for using models trained on environmental recordings of bird calls with mixture invariant training (MixIT) [1], as described in [2].
 
 If you find this code useful, please cite [1] and [2].
