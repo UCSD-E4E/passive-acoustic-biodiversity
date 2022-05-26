@@ -1,0 +1,7 @@
+Selection	View	Channel	Begin Time (s)	End Time (s)	Low Freq (Hz)	High Freq (Hz)	Species Code	Common Name	Confidence
+1	Spectrogram 1	1	0	3.0	150	12000	swafly1	Swainson's Flycatcher	0.1757
+2	Spectrogram 1	1	12.0	15.0	150	12000	sunbit1	Sunbittern	0.6526
+3	Spectrogram 1	1	3.0	6.0	150	12000	scrpih1	Screaming Piha	0.8935
+4	Spectrogram 1	1	6.0	9.0	150	12000	blacuc1	Black Cuckoo	0.9176
+5	Spectrogram 1	1	6.0	9.0	150	12000	scrpih1	Screaming Piha	0.6839
+6	Spectrogram 1	1	9.0	12.0	150	12000	scrpih1	Screaming Piha	0.6348

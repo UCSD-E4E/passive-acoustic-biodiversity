@@ -1,0 +1,16 @@
+Selection	View	Channel	Begin Time (s)	End Time (s)	Low Freq (Hz)	High Freq (Hz)	Species Code	Common Name	Confidence
+1	Spectrogram 1	1	0	3.0	150	12000	easowl1	Eastern Screech-Owl	0.5361
+2	Spectrogram 1	1	0	3.0	150	12000	compot1	Common Potoo	0.1097
+3	Spectrogram 1	1	15.0	18.0	150	12000	compot1	Common Potoo	0.4146
+4	Spectrogram 1	1	18.0	21.0	150	12000	plaant1	Plain Antvireo	0.9850
+5	Spectrogram 1	1	24.0	27.0	150	12000	plaant1	Plain Antvireo	0.3590
+6	Spectrogram 1	1	24.0	27.0	150	12000	compot1	Common Potoo	0.1444
+7	Spectrogram 1	1	27.0	30.0	150	12000	plaant1	Plain Antvireo	0.3685
+8	Spectrogram 1	1	27.0	30.0	150	12000	blttro2	Black-throated Trogon	0.1038
+9	Spectrogram 1	1	36.0	39.0	150	12000	compot1	Common Potoo	0.9687
+10	Spectrogram 1	1	36.0	39.0	150	12000	plaant1	Plain Antvireo	0.4848
+11	Spectrogram 1	1	39.0	42.0	150	12000	rawwre1	Rufous-and-white Wren	0.1795
+12	Spectrogram 1	1	39.0	42.0	150	12000	rudpig	Ruddy Pigeon	0.1573
+13	Spectrogram 1	1	6.0	9.0	150	12000	compot1	Common Potoo	0.3204
+14	Spectrogram 1	1	9.0	12.0	150	12000	compot1	Common Potoo	0.3924
+15	Spectrogram 1	1	9.0	12.0	150	12000	hilpar1	Hill Partridge	0.1614
