@@ -1,0 +1,27 @@
+Selection	View	Channel	Begin Time (s)	End Time (s)	Low Freq (Hz)	High Freq (Hz)	Species Code	Common Name	Confidence
+1	Spectrogram 1	1	0	3.0	150	12000	scrpih1	Screaming Piha	0.9993
+2	Spectrogram 1	1	12.0	15.0	150	12000	scrpih1	Screaming Piha	0.9980
+3	Spectrogram 1	1	12.0	15.0	150	12000	batman1	Band-tailed Manakin	0.3432
+4	Spectrogram 1	1	15.0	18.0	150	12000	scrpih1	Screaming Piha	0.9546
+5	Spectrogram 1	1	18.0	21.0	150	12000	scrpih1	Screaming Piha	0.9560
+6	Spectrogram 1	1	18.0	21.0	150	12000	brbmot1	Broad-billed Motmot	0.2194
+7	Spectrogram 1	1	18.0	21.0	150	12000	batman1	Band-tailed Manakin	0.1083
+8	Spectrogram 1	1	21.0	24.0	150	12000	scrpih1	Screaming Piha	0.9993
+9	Spectrogram 1	1	24.0	27.0	150	12000	scrpih1	Screaming Piha	0.9984
+10	Spectrogram 1	1	27.0	30.0	150	12000	scrpih1	Screaming Piha	0.8956
+11	Spectrogram 1	1	27.0	30.0	150	12000	blcman1	Blue-crowned Manakin	0.1083
+12	Spectrogram 1	1	3.0	6.0	150	12000	scrpih1	Screaming Piha	0.9960
+13	Spectrogram 1	1	30.0	33.0	150	12000	blttro1	Black-tailed Trogon	0.1167
+14	Spectrogram 1	1	33.0	36.0	150	12000	scrpih1	Screaming Piha	0.9925
+15	Spectrogram 1	1	36.0	39.0	150	12000	blttro1	Black-tailed Trogon	0.1089
+16	Spectrogram 1	1	39.0	42.0	150	12000	scrpih1	Screaming Piha	0.3662
+17	Spectrogram 1	1	39.0	42.0	150	12000	blttro1	Black-tailed Trogon	0.2323
+18	Spectrogram 1	1	42.0	45.0	150	12000	scrpih1	Screaming Piha	0.9942
+19	Spectrogram 1	1	45.0	48.0	150	12000	scrpih1	Screaming Piha	0.9971
+20	Spectrogram 1	1	48.0	51.0	150	12000	scrpih1	Screaming Piha	0.4183
+21	Spectrogram 1	1	51.0	54.0	150	12000	whnpuf2	White-necked Puffbird	0.2356
+22	Spectrogram 1	1	54.0	57.0	150	12000	scrpih1	Screaming Piha	0.9993
+23	Spectrogram 1	1	6.0	9.0	150	12000	scrpih1	Screaming Piha	0.6819
+24	Spectrogram 1	1	6.0	9.0	150	12000	gocspa1	Golden-crowned Spadebill	0.1503
+25	Spectrogram 1	1	9.0	12.0	150	12000	batman1	Band-tailed Manakin	0.2284
+26	Spectrogram 1	1	9.0	12.0	150	12000	whnpuf2	White-necked Puffbird	0.1036

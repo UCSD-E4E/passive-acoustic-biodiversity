@@ -1,0 +1,20 @@
+Selection	View	Channel	Begin Time (s)	End Time (s)	Low Freq (Hz)	High Freq (Hz)	Species Code	Common Name	Confidence
+1	Spectrogram 1	1	0	3.0	150	12000	scrpih1	Screaming Piha	0.6231
+2	Spectrogram 1	1	12.0	15.0	150	12000	viojay1	Violaceous Jay	0.2390
+3	Spectrogram 1	1	12.0	15.0	150	12000	creoro1	Crested Oropendola	0.1368
+4	Spectrogram 1	1	15.0	18.0	150	12000	viojay1	Violaceous Jay	0.7476
+5	Spectrogram 1	1	18.0	21.0	150	12000	gohman1	Golden-headed Manakin	0.1982
+6	Spectrogram 1	1	18.0	21.0	150	12000	scrpih1	Screaming Piha	0.1238
+7	Spectrogram 1	1	21.0	24.0	150	12000	scrpih1	Screaming Piha	0.6239
+8	Spectrogram 1	1	21.0	24.0	150	12000	viojay1	Violaceous Jay	0.1937
+9	Spectrogram 1	1	24.0	27.0	150	12000	viojay1	Violaceous Jay	0.8581
+10	Spectrogram 1	1	27.0	30.0	150	12000	viojay1	Violaceous Jay	0.2920
+11	Spectrogram 1	1	27.0	30.0	150	12000	scrpih1	Screaming Piha	0.1880
+12	Spectrogram 1	1	3.0	6.0	150	12000	scrpih1	Screaming Piha	0.7620
+13	Spectrogram 1	1	3.0	6.0	150	12000	bubwre1	Buff-breasted Wren	0.2939
+14	Spectrogram 1	1	30.0	33.0	150	12000	scrpih1	Screaming Piha	0.5624
+15	Spectrogram 1	1	30.0	33.0	150	12000	viojay1	Violaceous Jay	0.1361
+16	Spectrogram 1	1	33.0	36.0	150	12000	scrpih1	Screaming Piha	0.9848
+17	Spectrogram 1	1	6.0	9.0	150	12000	viojay1	Violaceous Jay	0.6518
+18	Spectrogram 1	1	9.0	12.0	150	12000	scrpih1	Screaming Piha	0.8443
+19	Spectrogram 1	1	9.0	12.0	150	12000	blbman1	Blue-backed Manakin	0.5950
