@@ -3,3 +3,4 @@ BirdnetEmbeddings/.ipynb_checkpoints/get_unknown_species-checkpoint.ipynb
 scalpers/.ipynb_checkpoints/get_unknown_species-checkpoint.ipynb
 scalpers/.ipynb_checkpoints/xento-canto-scalper-checkpoint.ipynb
 scalpers/data/*
+scalpers/pyrenote_data/*
