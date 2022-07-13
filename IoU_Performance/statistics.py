@@ -216,6 +216,14 @@ def automated_labeling_statistics(
                     statistics_df = clip_stats_df
                 else:
                     statistics_df = statistics_df.append(clip_stats_df)
+            elif stats_type == "IoU-orig":
+                IoU_Matrix = clip_IoU_orig(clip_automated_df, clip_manual_df)
+                clip_stats_df = matrix_IoU_Scores(
+                    IoU_Matrix, clip_manual_df, threshold)
+                if statistics_df.empty:
+                    statistics_df = clip_stats_df
+                else:
+                    statistics_df = statistics_df.append(clip_stats_df)
             elif stats_type == "IoU-lin":
                 IoU_Matrix = clip_IoU_lin(clip_automated_df, clip_manual_df)
                 clip_stats_df = matrix_IoU_Scores(
@@ -460,6 +468,106 @@ def clip_IoU_skip(automated_df, manual_df):
             # respective position in the array.
             if union_count == 0:
                 continue
+            IoU_Matrix[row, column] = round(
+                intersection_count / union_count, 4)
+            # Resetting the automated label to zero
+            bot_arr[bot_arr == 1] = 0
+        # Resetting the human label to zero
+        human_arr[human_arr == 1] = 0
+
+    return IoU_Matrix
+
+def clip_IoU_orig(automated_df, manual_df):
+    """
+    Function that takes in the manual and automated labels for a clip and
+    outputs IoU metrics of each human label with respect to each
+    automated label.
+
+    Args:
+        automated_df (Dataframe)
+            - Dataframe of automated labels for an audio clip.
+
+        manual_df (Dataframe)
+             - Dataframe of human labels for an audio clip.
+
+    Returns:
+        IoU_Matrix (arr)
+            - (human label count) x (automated label count) matrix where each
+              row contains the IoU of each automated annotation with respect to
+              a human label.
+    """
+
+    automated_df.reset_index(inplace=True, drop=True)
+    manual_df.reset_index(inplace=True, drop=True)
+    # Determining the number of rows in the output numpy array
+    manual_row_count = manual_df.shape[0]
+    # Determining the number of columns in the output numpy array
+    automated_row_count = automated_df.shape[0]
+
+    # Determining the length of the input clip
+    duration = automated_df["CLIP LENGTH"].to_list()[0]
+    # Determining the sample rate of the input clip
+    SAMPLE_RATE = automated_df["SAMPLE RATE"].to_list()[0]
+
+    # Initializing the output array that will contain the clip-by-clip
+    # Intersection over Union percentages.
+    IoU_Matrix = np.zeros((manual_row_count, automated_row_count))
+    # print(IoU_Matrix.shape)
+
+    # Initializing arrays that will represent each of the human and automated
+    # labels
+    bot_arr = np.zeros((int(duration * SAMPLE_RATE)))
+    human_arr = np.zeros((int(duration * SAMPLE_RATE)))
+
+    # Looping through each human label
+    for row in manual_df.index:
+        # print(row)
+        # Determining the beginning of a human label
+        minval = int(round(manual_df["OFFSET"][row] * SAMPLE_RATE, 0))
+        # Determining the end of a human label
+        maxval = int(
+            round(
+                (manual_df["OFFSET"][row] +
+                 manual_df["DURATION"][row]) *
+                SAMPLE_RATE,
+                0))
+        # Placing the label relative to the clip
+        human_arr[minval:maxval] = 1
+        # Looping through each automated label
+        for column in automated_df.index:
+            # Determining the beginning of an automated label
+            min_val = int(
+                round(
+                    automated_df["OFFSET"][column] *
+                    SAMPLE_RATE,
+                    0))
+            # Determining the ending of an automated label
+            max_val = int(
+                round(
+                    (automated_df["OFFSET"][column] +
+                     automated_df["DURATION"][column]) *
+                    SAMPLE_RATE,
+                    0))
+            # Placing the label relative to the clip
+            bot_arr[min_val:max_val] = 1
+            # Determining the overlap between the human label and the automated
+            # label
+            intersection = human_arr * bot_arr
+            # Determining the union between the human label and the automated
+            # label
+            union = human_arr + bot_arr
+            union[union == 2] = 1
+            # Determining how much of the human label and the automated label
+            # overlap with respect to time
+            intersection_count = np.count_nonzero(
+                intersection == 1) / SAMPLE_RATE
+            # Determining the span of the human label and the automated label
+            # with respect to time.
+            union_count = np.count_nonzero(union == 1) / SAMPLE_RATE
+            if union_count == 0:
+                continue
+            # Placing the Intersection over Union Percentage into it's
+            # respective position in the array.
             IoU_Matrix[row, column] = round(
                 intersection_count / union_count, 4)
             # Resetting the automated label to zero
