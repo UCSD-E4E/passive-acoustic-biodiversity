@@ -1,0 +1,19 @@
+Start (s),End (s),Scientific name,Common name,Confidence
+0,3.0,Myiornis ecaudatus,Short-tailed Pygmy-Tyrant,0.4792
+3.0,6.0,Myiornis ecaudatus,Short-tailed Pygmy-Tyrant,0.8312
+6.0,9.0,Myiornis ecaudatus,Short-tailed Pygmy-Tyrant,0.9484
+9.0,12.0,Myiornis ecaudatus,Short-tailed Pygmy-Tyrant,0.9985
+12.0,15.0,Myiornis ecaudatus,Short-tailed Pygmy-Tyrant,0.8363
+12.0,15.0,Tyrannus dominicensis,Gray Kingbird,0.1974
+15.0,18.0,Myiornis ecaudatus,Short-tailed Pygmy-Tyrant,0.9786
+18.0,21.0,Myiornis ecaudatus,Short-tailed Pygmy-Tyrant,0.9902
+21.0,24.0,Myiornis ecaudatus,Short-tailed Pygmy-Tyrant,0.9984
+24.0,27.0,Myiornis ecaudatus,Short-tailed Pygmy-Tyrant,0.9067
+27.0,30.0,Myiornis ecaudatus,Short-tailed Pygmy-Tyrant,0.8311
+27.0,30.0,Lophotriccus pileatus,Scale-crested Pygmy-Tyrant,0.2285
+30.0,33.0,Myiornis ecaudatus,Short-tailed Pygmy-Tyrant,0.9999
+33.0,36.0,Myiornis ecaudatus,Short-tailed Pygmy-Tyrant,0.9987
+36.0,39.0,Myiornis ecaudatus,Short-tailed Pygmy-Tyrant,0.9812
+39.0,42.0,Myiornis ecaudatus,Short-tailed Pygmy-Tyrant,0.9927
+42.0,45.0,Myiornis ecaudatus,Short-tailed Pygmy-Tyrant,0.9486
+45.0,48.0,Myiornis ecaudatus,Short-tailed Pygmy-Tyrant,0.9994

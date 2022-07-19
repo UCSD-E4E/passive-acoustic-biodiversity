@@ -1,0 +1,20 @@
+Start (s),End (s),Scientific name,Common name,Confidence
+0,3.0,Calidris bairdii,Baird's Sandpiper,0.9916
+0,3.0,Calidris alpina,Dunlin,0.1242
+3.0,6.0,Calidris bairdii,Baird's Sandpiper,0.9957
+6.0,9.0,Calidris bairdii,Baird's Sandpiper,0.9827
+9.0,12.0,Calidris bairdii,Baird's Sandpiper,0.9692
+12.0,15.0,Calidris bairdii,Baird's Sandpiper,0.9889
+15.0,18.0,Calidris bairdii,Baird's Sandpiper,0.5704
+18.0,21.0,Calidris bairdii,Baird's Sandpiper,0.4705
+21.0,24.0,Calidris bairdii,Baird's Sandpiper,0.9714
+24.0,27.0,Calidris alpina,Dunlin,0.4655
+24.0,27.0,Calidris bairdii,Baird's Sandpiper,0.3952
+27.0,30.0,Calidris bairdii,Baird's Sandpiper,0.9726
+30.0,33.0,Calidris bairdii,Baird's Sandpiper,0.9998
+33.0,36.0,Calidris bairdii,Baird's Sandpiper,0.9398
+36.0,39.0,Calidris bairdii,Baird's Sandpiper,0.3685
+39.0,42.0,Calidris bairdii,Baird's Sandpiper,0.1137
+42.0,45.0,Calidris bairdii,Baird's Sandpiper,0.9660
+45.0,48.0,Calidris bairdii,Baird's Sandpiper,0.9988
+45.0,48.0,Calidris alpina,Dunlin,0.1001

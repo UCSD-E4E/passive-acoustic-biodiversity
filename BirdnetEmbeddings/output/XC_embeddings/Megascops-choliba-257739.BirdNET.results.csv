@@ -1,0 +1,11 @@
+Start (s),End (s),Scientific name,Common name,Confidence
+0,3.0,Megascops choliba,Tropical Screech-Owl,0.9805
+3.0,6.0,Megascops choliba,Tropical Screech-Owl,0.9633
+3.0,6.0,Megascops watsonii,Tawny-bellied Screech-Owl,0.2173
+6.0,9.0,Nyctibius grandis,Great Potoo,0.1185
+12.0,15.0,Megascops choliba,Tropical Screech-Owl,0.9993
+15.0,18.0,Megascops watsonii,Tawny-bellied Screech-Owl,0.2358
+15.0,18.0,Megascops choliba,Tropical Screech-Owl,0.2206
+18.0,21.0,Megascops choliba,Tropical Screech-Owl,0.9448
+21.0,24.0,Megascops watsonii,Tawny-bellied Screech-Owl,0.3690
+27.0,30.0,Megascops choliba,Tropical Screech-Owl,0.8833

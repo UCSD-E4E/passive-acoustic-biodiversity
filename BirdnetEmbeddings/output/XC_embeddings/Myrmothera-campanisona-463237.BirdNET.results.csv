@@ -1,0 +1,9 @@
+Start (s),End (s),Scientific name,Common name,Confidence
+0,3.0,Megascops trichopsis,Whiskered Screech-Owl,0.4455
+3.0,6.0,Laniarius major,Tropical Boubou,0.8682
+6.0,9.0,Thamnophilus schistaceus,Plain-winged Antshrike,0.1257
+6.0,9.0,Trogon melanurus,Black-tailed Trogon,0.1252
+15.0,18.0,Megascops trichopsis,Whiskered Screech-Owl,0.7116
+15.0,18.0,Laniarius major,Tropical Boubou,0.4742
+18.0,21.0,Patagioenas plumbea,Plumbeous Pigeon,0.2223
+24.0,27.0,Gallus gallus,Red Junglefowl,0.2217

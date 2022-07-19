@@ -1,0 +1,14 @@
+Start (s),End (s),Scientific name,Common name,Confidence
+0,3.0,Crypturellus soui,Little Tinamou,0.3859
+0,3.0,Sciaphylax hemimelaena,Chestnut-tailed Antbird,0.1287
+0,3.0,Campylorhynchus turdinus,Thrush-like Wren,0.1061
+3.0,6.0,Jacamerops aureus,Great Jacamar,0.9987
+6.0,9.0,Jacamerops aureus,Great Jacamar,0.9938
+9.0,12.0,Sciaphylax hemimelaena,Chestnut-tailed Antbird,0.1110
+15.0,18.0,Jacamerops aureus,Great Jacamar,0.6393
+15.0,18.0,Electron platyrhynchum,Broad-billed Motmot,0.1475
+15.0,18.0,Gastrophryne carolinensis,Eastern Narrow-mouthed Toad,0.1042
+18.0,21.0,Jacamerops aureus,Great Jacamar,0.9996
+24.0,27.0,Sciaphylax hemimelaena,Chestnut-tailed Antbird,0.2251
+33.0,36.0,Myrmotherula axillaris,White-flanked Antwren,0.2353
+36.0,39.0,Jacamerops aureus,Great Jacamar,0.9998

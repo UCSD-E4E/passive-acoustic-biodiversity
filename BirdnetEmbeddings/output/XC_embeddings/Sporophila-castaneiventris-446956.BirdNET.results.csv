@@ -1,0 +1,15 @@
+Start (s),End (s),Scientific name,Common name,Confidence
+0,3.0,Pygochelidon cyanoleuca,Blue-and-white Swallow,0.4879
+3.0,6.0,Pygochelidon cyanoleuca,Blue-and-white Swallow,0.3458
+6.0,9.0,Estrilda astrild,Common Waxbill,0.8348
+6.0,9.0,Pygochelidon cyanoleuca,Blue-and-white Swallow,0.2059
+12.0,15.0,Estrilda astrild,Common Waxbill,0.2620
+12.0,15.0,Pygochelidon cyanoleuca,Blue-and-white Swallow,0.2465
+15.0,18.0,Estrilda astrild,Common Waxbill,0.9689
+21.0,24.0,Estrilda astrild,Common Waxbill,0.6211
+21.0,24.0,Acrocephalus gracilirostris,Lesser Swamp Warbler,0.1654
+21.0,24.0,Pygochelidon cyanoleuca,Blue-and-white Swallow,0.1456
+24.0,27.0,Estrilda astrild,Common Waxbill,0.9910
+24.0,27.0,Ploceus philippinus,Baya Weaver,0.2715
+24.0,27.0,Pygochelidon cyanoleuca,Blue-and-white Swallow,0.2292
+24.0,27.0,Ploceus manyar,Streaked Weaver,0.1059

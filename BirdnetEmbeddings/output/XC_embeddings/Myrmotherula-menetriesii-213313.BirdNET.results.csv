@@ -1,0 +1,11 @@
+Start (s),End (s),Scientific name,Common name,Confidence
+0,3.0,Sclateria naevia,Silvered Antbird,0.1058
+3.0,6.0,Myrmotherula menetriesii,Gray Antwren,0.6705
+6.0,9.0,Myrmotherula menetriesii,Gray Antwren,0.9346
+9.0,12.0,Myrmotherula menetriesii,Gray Antwren,0.6250
+9.0,12.0,Taraba major,Great Antshrike,0.3788
+9.0,12.0,Trogon curucui,Blue-crowned Trogon,0.1637
+12.0,15.0,Trogon curucui,Blue-crowned Trogon,0.2379
+18.0,21.0,Myrmotherula menetriesii,Gray Antwren,0.6637
+21.0,24.0,Myrmotherula menetriesii,Gray Antwren,0.9568
+21.0,24.0,Cercomacra cinerascens,Gray Antbird,0.6777

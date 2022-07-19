@@ -1,0 +1,30 @@
+Start (s),End (s),Scientific name,Common name,Confidence
+0,3.0,Butorides striata,Striated Heron,0.1424
+6.0,9.0,Crypturellus variegatus,Variegated Tinamou,0.2487
+12.0,15.0,Porzana porzana,Spotted Crake,0.4308
+15.0,18.0,Leptotila verreauxi,White-tipped Dove,0.1108
+21.0,24.0,Porzana porzana,Spotted Crake,0.3007
+24.0,27.0,Porzana porzana,Spotted Crake,0.1010
+27.0,30.0,Leptotila verreauxi,White-tipped Dove,0.3343
+27.0,30.0,Porzana porzana,Spotted Crake,0.1452
+30.0,33.0,Leptotila verreauxi,White-tipped Dove,0.4848
+30.0,33.0,Eurypyga helias,Sunbittern,0.3151
+30.0,33.0,Siren,Siren,0.1015
+33.0,36.0,Porzana porzana,Spotted Crake,0.1081
+39.0,42.0,Crypturellus variegatus,Variegated Tinamou,0.5405
+39.0,42.0,Tinamus major,Great Tinamou,0.2155
+42.0,45.0,Crypturellus cinnamomeus,Thicket Tinamou,0.5934
+42.0,45.0,Crypturellus undulatus,Undulated Tinamou,0.1752
+45.0,48.0,Eleutherodactylus planirostris,Greenhouse Frog,0.2914
+48.0,51.0,Dryocopus martius,Black Woodpecker,0.2301
+48.0,51.0,Porzana porzana,Spotted Crake,0.1543
+48.0,51.0,Leptotila verreauxi,White-tipped Dove,0.1102
+48.0,51.0,Eleutherodactylus planirostris,Greenhouse Frog,0.1064
+54.0,57.0,Eleutherodactylus planirostris,Greenhouse Frog,0.7395
+60.0,63.0,Leptotila verreauxi,White-tipped Dove,0.2648
+63.0,66.0,Crypturellus cinereus,Cinereous Tinamou,0.1600
+66.0,69.0,Porzana porzana,Spotted Crake,0.1184
+69.0,72.0,Crypturellus variegatus,Variegated Tinamou,0.2186
+72.0,75.0,Tinamus major,Great Tinamou,0.8205
+72.0,75.0,Crypturellus variegatus,Variegated Tinamou,0.2761
+75.0,78.0,Porzana porzana,Spotted Crake,0.1622

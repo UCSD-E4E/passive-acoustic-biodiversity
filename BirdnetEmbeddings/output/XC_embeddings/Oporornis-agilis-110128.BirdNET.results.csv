@@ -1,0 +1,78 @@
+Start (s),End (s),Scientific name,Common name,Confidence
+0,3.0,Oporornis agilis,Connecticut Warbler,0.9991
+3.0,6.0,Zonotrichia leucophrys,White-crowned Sparrow,0.9327
+6.0,9.0,Zonotrichia leucophrys,White-crowned Sparrow,0.7448
+9.0,12.0,Zonotrichia leucophrys,White-crowned Sparrow,0.2375
+9.0,12.0,Catharus guttatus,Hermit Thrush,0.1288
+12.0,15.0,Catharus guttatus,Hermit Thrush,0.7703
+12.0,15.0,Nucifraga columbiana,Clark's Nutcracker,0.2051
+12.0,15.0,Catharus fuscater,Slaty-backed Nightingale-Thrush,0.1578
+12.0,15.0,Laniarius major,Tropical Boubou,0.1271
+15.0,18.0,Zonotrichia albicollis,White-throated Sparrow,0.4933
+15.0,18.0,Ciccaba virgata,Mottled Owl,0.1288
+18.0,21.0,Oporornis agilis,Connecticut Warbler,0.9994
+21.0,24.0,Catharus fuscater,Slaty-backed Nightingale-Thrush,0.5838
+21.0,24.0,Zonotrichia leucophrys,White-crowned Sparrow,0.3121
+21.0,24.0,Catharus guttatus,Hermit Thrush,0.2482
+21.0,24.0,Nucifraga columbiana,Clark's Nutcracker,0.1168
+24.0,27.0,Hyliola regilla,Pacific Chorus Frog,0.7556
+24.0,27.0,Zonotrichia leucophrys,White-crowned Sparrow,0.1572
+24.0,27.0,Anthus rubescens,American Pipit,0.1058
+27.0,30.0,Zonotrichia leucophrys,White-crowned Sparrow,0.7166
+27.0,30.0,Catharus guttatus,Hermit Thrush,0.2395
+27.0,30.0,Leucosticte tephrocotis,Gray-crowned Rosy-Finch,0.1585
+27.0,30.0,Nucifraga columbiana,Clark's Nutcracker,0.1557
+30.0,33.0,Antrostomus carolinensis,Chuck-will's-widow,0.8853
+30.0,33.0,Nucifraga columbiana,Clark's Nutcracker,0.2828
+30.0,33.0,Zonotrichia leucophrys,White-crowned Sparrow,0.1547
+33.0,36.0,Oporornis agilis,Connecticut Warbler,0.9998
+36.0,39.0,Zonotrichia leucophrys,White-crowned Sparrow,0.6897
+39.0,42.0,Zonotrichia leucophrys,White-crowned Sparrow,0.3696
+39.0,42.0,Hyliola regilla,Pacific Chorus Frog,0.2457
+39.0,42.0,Catharus guttatus,Hermit Thrush,0.1031
+42.0,45.0,Nucifraga columbiana,Clark's Nutcracker,0.2349
+42.0,45.0,Zonotrichia leucophrys,White-crowned Sparrow,0.1989
+45.0,48.0,Zonotrichia leucophrys,White-crowned Sparrow,0.3328
+45.0,48.0,Catharus fuscater,Slaty-backed Nightingale-Thrush,0.2136
+48.0,51.0,Oporornis agilis,Connecticut Warbler,0.9992
+51.0,54.0,Catharus guttatus,Hermit Thrush,0.9559
+51.0,54.0,Zonotrichia leucophrys,White-crowned Sparrow,0.3217
+51.0,54.0,Nucifraga columbiana,Clark's Nutcracker,0.2145
+54.0,57.0,Hyliola regilla,Pacific Chorus Frog,0.1449
+57.0,60.0,Catharus guttatus,Hermit Thrush,0.9680
+57.0,60.0,Bubo virginianus,Great Horned Owl,0.1363
+60.0,63.0,Oporornis agilis,Connecticut Warbler,0.9994
+63.0,66.0,Catharus guttatus,Hermit Thrush,0.8594
+63.0,66.0,Leucosticte tephrocotis,Gray-crowned Rosy-Finch,0.2608
+66.0,69.0,Pharomachrus auriceps,Golden-headed Quetzal,0.3855
+66.0,69.0,Zonotrichia leucophrys,White-crowned Sparrow,0.2639
+66.0,69.0,Grallaria ruficapilla,Chestnut-crowned Antpitta,0.1796
+66.0,69.0,Hyliola regilla,Pacific Chorus Frog,0.1552
+69.0,72.0,Nucifraga columbiana,Clark's Nutcracker,0.3003
+69.0,72.0,Catharus guttatus,Hermit Thrush,0.1730
+72.0,75.0,Oporornis agilis,Connecticut Warbler,0.9989
+75.0,78.0,Oporornis agilis,Connecticut Warbler,0.2140
+75.0,78.0,Catharus guttatus,Hermit Thrush,0.1982
+78.0,81.0,Zonotrichia leucophrys,White-crowned Sparrow,0.3225
+78.0,81.0,Hyliola regilla,Pacific Chorus Frog,0.1404
+81.0,84.0,Catharus guttatus,Hermit Thrush,0.4648
+81.0,84.0,Xiphocolaptes promeropirhynchus,Strong-billed Woodcreeper,0.2006
+84.0,87.0,Catharus guttatus,Hermit Thrush,0.4098
+87.0,90.0,Oporornis agilis,Connecticut Warbler,0.9991
+90.0,93.0,Zonotrichia leucophrys,White-crowned Sparrow,0.1838
+90.0,93.0,Anaxyrus americanus,American Toad,0.1140
+93.0,96.0,Catharus guttatus,Hermit Thrush,0.2934
+96.0,99.0,Catharus guttatus,Hermit Thrush,0.9534
+96.0,99.0,Strix occidentalis,Spotted Owl,0.2509
+96.0,99.0,Ixoreus naevius,Varied Thrush,0.1618
+99.0,102.0,Catharus guttatus,Hermit Thrush,0.6436
+99.0,102.0,Caprimulgus europaeus,Eurasian Nightjar,0.1478
+102.0,105.0,Nucifraga columbiana,Clark's Nutcracker,0.5410
+102.0,105.0,Zonotrichia leucophrys,White-crowned Sparrow,0.1325
+105.0,108.0,Nucifraga columbiana,Clark's Nutcracker,0.1701
+105.0,108.0,Hyliola regilla,Pacific Chorus Frog,0.1694
+108.0,111.0,Catharus guttatus,Hermit Thrush,0.7929
+108.0,111.0,Strix occidentalis,Spotted Owl,0.2911
+111.0,114.0,Strix occidentalis,Spotted Owl,0.4682
+111.0,114.0,Catharus guttatus,Hermit Thrush,0.3412
+114.0,117.0,Oporornis agilis,Connecticut Warbler,0.9997

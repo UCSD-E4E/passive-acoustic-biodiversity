@@ -1,0 +1,10 @@
+Start (s),End (s),Scientific name,Common name,Confidence
+0,3.0,Chlorothraupis carmioli,Carmiol's Tanager,0.9995
+3.0,6.0,Querula purpurata,Purple-throated Fruitcrow,0.1614
+6.0,9.0,Chlorothraupis carmioli,Carmiol's Tanager,1.0000
+6.0,9.0,Turdus eunomus,Dusky Thrush,0.3828
+6.0,9.0,Habia rubica,Red-crowned Ant-Tanager,0.1443
+6.0,9.0,Chlorothraupis stolzmanni,Ochre-breasted Tanager,0.1299
+9.0,12.0,Chlorothraupis carmioli,Carmiol's Tanager,0.9974
+9.0,12.0,Chlorothraupis stolzmanni,Ochre-breasted Tanager,0.1659
+12.0,15.0,Chlorothraupis carmioli,Carmiol's Tanager,1.0000

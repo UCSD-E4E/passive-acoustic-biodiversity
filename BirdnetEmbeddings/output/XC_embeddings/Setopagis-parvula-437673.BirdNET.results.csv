@@ -1,0 +1,12 @@
+Start (s),End (s),Scientific name,Common name,Confidence
+0,3.0,Nyctidromus albicollis,Common Pauraque,0.6732
+0,3.0,Laniarius funebris,Slate-colored Boubou,0.1346
+9.0,12.0,Laniarius funebris,Slate-colored Boubou,0.3526
+9.0,12.0,Caprimulgus europaeus,Eurasian Nightjar,0.2747
+12.0,15.0,Caprimulgus europaeus,Eurasian Nightjar,0.3644
+12.0,15.0,Nyctidromus albicollis,Common Pauraque,0.2540
+12.0,15.0,Laniarius funebris,Slate-colored Boubou,0.1669
+12.0,15.0,Chiroxiphia pareola,Blue-backed Manakin,0.1495
+15.0,18.0,Nyctidromus albicollis,Common Pauraque,0.2740
+15.0,18.0,Megascops choliba,Tropical Screech-Owl,0.2004
+18.0,21.0,Nyctidromus albicollis,Common Pauraque,0.3678

@@ -1,0 +1,13 @@
+Start (s),End (s),Scientific name,Common name,Confidence
+0,3.0,Myrmotherula schisticolor,Slaty Antwren,0.3994
+0,3.0,Leptopogon superciliaris,Slaty-capped Flycatcher,0.3421
+0,3.0,Platyrinchus mystaceus,White-throated Spadebill,0.1939
+0,3.0,Myiodynastes chrysocephalus,Golden-crowned Flycatcher,0.1266
+3.0,6.0,Leptopogon superciliaris,Slaty-capped Flycatcher,0.8193
+3.0,6.0,Syndactyla rufosuperciliata,Buff-browed Foliage-gleaner,0.1371
+12.0,15.0,Leptopogon superciliaris,Slaty-capped Flycatcher,0.4218
+12.0,15.0,Syndactyla rufosuperciliata,Buff-browed Foliage-gleaner,0.3663
+12.0,15.0,Leptopogon amaurocephalus,Sepia-capped Flycatcher,0.1723
+15.0,18.0,Syndactyla rufosuperciliata,Buff-browed Foliage-gleaner,0.7059
+18.0,21.0,Leptopogon superciliaris,Slaty-capped Flycatcher,0.8983
+18.0,21.0,Synallaxis brachyura,Slaty Spinetail,0.1652

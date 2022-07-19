@@ -1,0 +1,13 @@
+Start (s),End (s),Scientific name,Common name,Confidence
+0,3.0,Myrmoborus leucophrys,White-browed Antbird,0.9619
+6.0,9.0,Myrmoborus leucophrys,White-browed Antbird,0.2761
+9.0,12.0,Myrmoborus leucophrys,White-browed Antbird,0.3878
+9.0,12.0,Cantorchilus leucotis,Buff-breasted Wren,0.1529
+12.0,15.0,Myrmoborus leucophrys,White-browed Antbird,0.5108
+15.0,18.0,Myrmoborus leucophrys,White-browed Antbird,0.6885
+21.0,24.0,Myrmoborus leucophrys,White-browed Antbird,0.3172
+21.0,24.0,Thryophilus pleurostictus,Banded Wren,0.3014
+24.0,27.0,Myrmoborus leucophrys,White-browed Antbird,0.3518
+27.0,30.0,Myrmoborus leucophrys,White-browed Antbird,0.2580
+27.0,30.0,Cantorchilus leucotis,Buff-breasted Wren,0.1622
+27.0,30.0,Thryophilus pleurostictus,Banded Wren,0.1223

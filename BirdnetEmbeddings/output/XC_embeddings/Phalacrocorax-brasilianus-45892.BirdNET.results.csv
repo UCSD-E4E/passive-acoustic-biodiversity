@@ -1,0 +1,16 @@
+Start (s),End (s),Scientific name,Common name,Confidence
+0,3.0,Nannopterum brasilianum,Neotropic Cormorant,0.9941
+0,3.0,Nannopterum auritum,Double-crested Cormorant,0.1590
+3.0,6.0,Nannopterum brasilianum,Neotropic Cormorant,0.9943
+3.0,6.0,Nannopterum auritum,Double-crested Cormorant,0.2803
+6.0,9.0,Lagopus muta,Rock Ptarmigan,0.7144
+6.0,9.0,Nannopterum brasilianum,Neotropic Cormorant,0.1576
+6.0,9.0,Oxyura jamaicensis,Ruddy Duck,0.1349
+6.0,9.0,Anhinga anhinga,Anhinga,0.1325
+9.0,12.0,Nannopterum brasilianum,Neotropic Cormorant,0.9887
+9.0,12.0,Nannopterum auritum,Double-crested Cormorant,0.4130
+9.0,12.0,Sula sula,Red-footed Booby,0.2051
+9.0,12.0,Corvus corax,Common Raven,0.1485
+9.0,12.0,Corvus cryptoleucus,Chihuahuan Raven,0.1462
+12.0,15.0,Nannopterum brasilianum,Neotropic Cormorant,0.3444
+12.0,15.0,Ciconia ciconia,White Stork,0.1228

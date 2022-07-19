@@ -1,0 +1,16 @@
+Start (s),End (s),Scientific name,Common name,Confidence
+0,3.0,Micrastur semitorquatus,Collared Forest-Falcon,0.9712
+3.0,6.0,Micrastur semitorquatus,Collared Forest-Falcon,0.9269
+6.0,9.0,Micrastur semitorquatus,Collared Forest-Falcon,0.9652
+9.0,12.0,Micrastur semitorquatus,Collared Forest-Falcon,0.9524
+12.0,15.0,Micrastur semitorquatus,Collared Forest-Falcon,0.9914
+15.0,18.0,Micrastur semitorquatus,Collared Forest-Falcon,0.9841
+18.0,21.0,Trogon viridis,Green-backed Trogon,0.1108
+21.0,24.0,Formicarius colma,Rufous-capped Antthrush,0.4955
+21.0,24.0,Campephilus melanoleucos,Crimson-crested Woodpecker,0.1059
+30.0,33.0,Formicarius colma,Rufous-capped Antthrush,0.3442
+39.0,42.0,Formicarius colma,Rufous-capped Antthrush,0.2578
+42.0,45.0,Micrastur semitorquatus,Collared Forest-Falcon,0.8439
+48.0,51.0,Micrastur semitorquatus,Collared Forest-Falcon,0.9705
+51.0,54.0,Micrastur semitorquatus,Collared Forest-Falcon,0.9845
+54.0,57.0,Micrastur semitorquatus,Collared Forest-Falcon,0.9914

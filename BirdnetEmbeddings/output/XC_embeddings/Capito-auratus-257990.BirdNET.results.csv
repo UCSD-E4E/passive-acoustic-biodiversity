@@ -1,0 +1,17 @@
+Start (s),End (s),Scientific name,Common name,Confidence
+0,3.0,Capito auratus,Gilded Barbet,1.0000
+3.0,6.0,Capito auratus,Gilded Barbet,1.0000
+6.0,9.0,Capito auratus,Gilded Barbet,0.9999
+9.0,12.0,Capito auratus,Gilded Barbet,0.9998
+12.0,15.0,Capito auratus,Gilded Barbet,0.9997
+15.0,18.0,Capito auratus,Gilded Barbet,0.9998
+18.0,21.0,Capito auratus,Gilded Barbet,0.9750
+21.0,24.0,Capito auratus,Gilded Barbet,0.9999
+24.0,27.0,Capito auratus,Gilded Barbet,0.9999
+27.0,30.0,Capito auratus,Gilded Barbet,1.0000
+27.0,30.0,Cercomacra cinerascens,Gray Antbird,0.1067
+30.0,33.0,Capito auratus,Gilded Barbet,0.9999
+33.0,36.0,Capito auratus,Gilded Barbet,0.9980
+36.0,39.0,Capito auratus,Gilded Barbet,0.9982
+39.0,42.0,Capito auratus,Gilded Barbet,0.9999
+42.0,45.0,Capito auratus,Gilded Barbet,0.9741

@@ -1,0 +1,12 @@
+Start (s),End (s),Scientific name,Common name,Confidence
+0,3.0,Tolmomyias sulphurescens,Yellow-olive Flycatcher,0.9999
+3.0,6.0,Tolmomyias sulphurescens,Yellow-olive Flycatcher,0.9999
+12.0,15.0,Tolmomyias sulphurescens,Yellow-olive Flycatcher,0.9986
+15.0,18.0,Cinclus cinclus,White-throated Dipper,0.2882
+15.0,18.0,Pygochelidon cyanoleuca,Blue-and-white Swallow,0.2549
+15.0,18.0,Euphonia laniirostris,Thick-billed Euphonia,0.1750
+21.0,24.0,Tolmomyias sulphurescens,Yellow-olive Flycatcher,0.9925
+30.0,33.0,Tolmomyias sulphurescens,Yellow-olive Flycatcher,0.9846
+36.0,39.0,Tolmomyias sulphurescens,Yellow-olive Flycatcher,0.9990
+42.0,45.0,Tolmomyias sulphurescens,Yellow-olive Flycatcher,0.9952
+42.0,45.0,Tolmomyias flaviventris,Yellow-breasted Flycatcher,0.2867

@@ -1,0 +1,18 @@
+Start (s),End (s),Scientific name,Common name,Confidence
+0,3.0,Pachyramphus cinnamomeus,Cinnamon Becard,0.1640
+3.0,6.0,Sayornis saya,Say's Phoebe,0.1521
+3.0,6.0,Henicorhina leucosticta,White-breasted Wood-Wren,0.1040
+6.0,9.0,Myiozetetes cayanensis,Rusty-margined Flycatcher,0.4638
+6.0,9.0,Schiffornis veraepacis,Northern Schiffornis,0.4285
+6.0,9.0,Henicorhina leucosticta,White-breasted Wood-Wren,0.1438
+6.0,9.0,Cacicus uropygialis,Scarlet-rumped Cacique,0.1043
+6.0,9.0,Jacamerops aureus,Great Jacamar,0.1024
+9.0,12.0,Pachyramphus cinnamomeus,Cinnamon Becard,0.5784
+9.0,12.0,Myiozetetes cayanensis,Rusty-margined Flycatcher,0.1488
+9.0,12.0,Vireo pallens,Mangrove Vireo,0.1474
+9.0,12.0,Amblyramphus holosericeus,Scarlet-headed Blackbird,0.1049
+12.0,15.0,Henicorhina leucosticta,White-breasted Wood-Wren,0.5208
+12.0,15.0,Lepidothrix coronata,Blue-crowned Manakin,0.2524
+15.0,18.0,Hypoedaleus guttatus,Spot-backed Antshrike,0.2257
+15.0,18.0,Zimmerius chrysops,Golden-faced Tyrannulet,0.1937
+15.0,18.0,Myrmophylax atrothorax,Black-throated Antbird,0.1697

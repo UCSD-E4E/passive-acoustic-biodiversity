@@ -1,0 +1,9 @@
+Start (s),End (s),Scientific name,Common name,Confidence
+0,3.0,Nyctidromus albicollis,Common Pauraque,0.1927
+3.0,6.0,Numida meleagris,Helmeted Guineafowl,0.1414
+9.0,12.0,Icterus croconotus,Orange-backed Troupial,0.3472
+15.0,18.0,Numida meleagris,Helmeted Guineafowl,0.3122
+15.0,18.0,Guira guira,Guira Cuckoo,0.2578
+18.0,21.0,Numida meleagris,Helmeted Guineafowl,0.6084
+21.0,24.0,Numida meleagris,Helmeted Guineafowl,0.7170
+24.0,27.0,Numida meleagris,Helmeted Guineafowl,0.7596

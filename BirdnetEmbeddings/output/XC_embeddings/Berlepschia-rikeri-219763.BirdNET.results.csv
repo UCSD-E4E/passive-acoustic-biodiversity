@@ -1,0 +1,25 @@
+Start (s),End (s),Scientific name,Common name,Confidence
+6.0,9.0,Manorina melanocephala,Noisy Miner,0.8089
+12.0,15.0,Spizella pallida,Clay-colored Sparrow,0.8197
+18.0,21.0,Manorina melanocephala,Noisy Miner,0.4210
+21.0,24.0,Apus pallidus,Pallid Swift,0.3850
+21.0,24.0,Apus apus,Common Swift,0.1308
+30.0,33.0,Spizella pallida,Clay-colored Sparrow,0.3642
+30.0,33.0,Apus apus,Common Swift,0.1278
+33.0,36.0,Cinclus mexicanus,American Dipper,0.1771
+36.0,39.0,Apus apus,Common Swift,0.5737
+36.0,39.0,Spizella pallida,Clay-colored Sparrow,0.2946
+39.0,42.0,Dendrocolaptes picumnus,Black-banded Woodcreeper,0.1824
+48.0,51.0,Cyanoptila cyanomelana,Blue-and-white Flycatcher,0.3484
+48.0,51.0,Phylloscopus coronatus,Eastern Crowned Warbler,0.1764
+54.0,57.0,Cormobates leucophaea,White-throated Treecreeper,0.7269
+54.0,57.0,Scytalopus spillmanni,Spillmann's Tapaculo,0.4729
+54.0,57.0,Xiphorhynchus flavigaster,Ivory-billed Woodcreeper,0.2095
+57.0,60.0,Manorina melanocephala,Noisy Miner,0.8852
+57.0,60.0,Scytalopus spillmanni,Spillmann's Tapaculo,0.2046
+57.0,60.0,Cormobates leucophaea,White-throated Treecreeper,0.1675
+69.0,72.0,Scytalopus spillmanni,Spillmann's Tapaculo,0.5778
+72.0,75.0,Manorina melanocephala,Noisy Miner,0.4484
+72.0,75.0,Scytalopus spillmanni,Spillmann's Tapaculo,0.1705
+84.0,87.0,Scytalopus spillmanni,Spillmann's Tapaculo,0.4983
+87.0,90.0,Manorina melanocephala,Noisy Miner,0.9244
