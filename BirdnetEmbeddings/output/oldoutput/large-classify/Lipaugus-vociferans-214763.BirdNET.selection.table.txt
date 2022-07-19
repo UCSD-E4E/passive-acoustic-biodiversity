@@ -1,9 +1,0 @@
-Selection	View	Channel	Begin Time (s)	End Time (s)	Low Freq (Hz)	High Freq (Hz)	Species Code	Common Name	Confidence
-1	Spectrogram 1	1	0	3.0	150	12000	scrpih1	Screaming Piha	0.1855
-2	Spectrogram 1	1	12.0	15.0	150	12000	scrpih1	Screaming Piha	0.5371
-3	Spectrogram 1	1	15.0	18.0	150	12000	forela1	Forest Elaenia	0.1732
-4	Spectrogram 1	1	15.0	18.0	150	12000	wibpip1	Wing-barred Piprites	0.1130
-5	Spectrogram 1	1	15.0	18.0	150	12000	whcsap1	White-chinned Sapphire	0.1108
-6	Spectrogram 1	1	21.0	24.0	150	12000	brratt1	Bright-rumped Attila	0.8970
-7	Spectrogram 1	1	3.0	6.0	150	12000	scrpih1	Screaming Piha	0.2096
-8	Spectrogram 1	1	9.0	12.0	150	12000	brratt1	Bright-rumped Attila	0.6548

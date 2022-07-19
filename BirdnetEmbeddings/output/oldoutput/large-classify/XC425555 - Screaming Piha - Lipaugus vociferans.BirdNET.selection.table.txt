@@ -1,8 +1,0 @@
-Selection	View	Channel	Begin Time (s)	End Time (s)	Low Freq (Hz)	High Freq (Hz)	Species Code	Common Name	Confidence
-1	Spectrogram 1	1	0	3.0	150	12000	scrpih1	Screaming Piha	0.9969
-2	Spectrogram 1	1	12.0	15.0	150	12000	scrpih1	Screaming Piha	0.9921
-3	Spectrogram 1	1	6.0	9.0	150	12000	undtin1	Undulated Tinamou	0.3278
-4	Spectrogram 1	1	6.0	9.0	150	12000	grbcra1	Gray-breasted Crake	0.3152
-5	Spectrogram 1	1	9.0	12.0	150	12000	spigua1	Spix's Guan	0.9079
-6	Spectrogram 1	1	9.0	12.0	150	12000	compot1	Common Potoo	0.4947
-7	Spectrogram 1	1	9.0	12.0	150	12000	scrpih1	Screaming Piha	0.2043

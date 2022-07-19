@@ -4,3 +4,5 @@ BirdnetEmbeddings/data/*
 BirdnetEmbeddings/.ipynb_checkpoints/*
 BirdnetEmbeddings/embeddings.csv
 .DS_Store
+BirdnetEmbeddings/mixed_bird_manual.csv
+BirdnetEmbeddings/mixed_bird_sample.csv

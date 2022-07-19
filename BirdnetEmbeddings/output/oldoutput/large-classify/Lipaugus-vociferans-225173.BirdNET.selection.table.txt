@@ -1,6 +1,0 @@
-Selection	View	Channel	Begin Time (s)	End Time (s)	Low Freq (Hz)	High Freq (Hz)	Species Code	Common Name	Confidence
-1	Spectrogram 1	1	12.0	15.0	150	12000	stptyr1	Short-tailed Pygmy-Tyrant	0.1886
-2	Spectrogram 1	1	18.0	21.0	150	12000	spocra1	Spotted Crake	0.1069
-3	Spectrogram 1	1	21.0	24.0	150	12000	scrpih1	Screaming Piha	0.9232
-4	Spectrogram 1	1	3.0	6.0	150	12000	scrpih1	Screaming Piha	0.8828
-5	Spectrogram 1	1	9.0	12.0	150	12000	gowpar2	Golden-winged Parakeet	0.3410

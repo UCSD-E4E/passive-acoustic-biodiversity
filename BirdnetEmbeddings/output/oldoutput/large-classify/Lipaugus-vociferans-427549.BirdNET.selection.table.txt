@@ -1,7 +1,0 @@
-Selection	View	Channel	Begin Time (s)	End Time (s)	Low Freq (Hz)	High Freq (Hz)	Species Code	Common Name	Confidence
-1	Spectrogram 1	1	0	3.0	150	12000	scrpih1	Screaming Piha	0.7524
-2	Spectrogram 1	1	15.0	18.0	150	12000	scrpih1	Screaming Piha	0.8967
-3	Spectrogram 1	1	18.0	21.0	150	12000	scrpih1	Screaming Piha	0.9684
-4	Spectrogram 1	1	6.0	9.0	150	12000	scrpih1	Screaming Piha	0.9875
-5	Spectrogram 1	1	9.0	12.0	150	12000	undtin1	Undulated Tinamou	0.2166
-6	Spectrogram 1	1	9.0	12.0	150	12000	whbant6	White-browed Antbird	0.1157

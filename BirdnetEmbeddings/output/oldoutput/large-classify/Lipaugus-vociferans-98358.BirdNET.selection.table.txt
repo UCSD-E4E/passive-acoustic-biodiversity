@@ -1,9 +1,0 @@
-Selection	View	Channel	Begin Time (s)	End Time (s)	Low Freq (Hz)	High Freq (Hz)	Species Code	Common Name	Confidence
-1	Spectrogram 1	1	0	3.0	150	12000	scrpih1	Screaming Piha	0.9594
-2	Spectrogram 1	1	12.0	15.0	150	12000	scrpih1	Screaming Piha	0.1150
-3	Spectrogram 1	1	15.0	18.0	150	12000	scrpih1	Screaming Piha	0.7311
-4	Spectrogram 1	1	15.0	18.0	150	12000	plupig2	Plumbeous Pigeon	0.1425
-5	Spectrogram 1	1	18.0	21.0	150	12000	scrpih1	Screaming Piha	0.9430
-6	Spectrogram 1	1	3.0	6.0	150	12000	scrpih1	Screaming Piha	0.5548
-7	Spectrogram 1	1	6.0	9.0	150	12000	scrpih1	Screaming Piha	0.8036
-8	Spectrogram 1	1	9.0	12.0	150	12000	scrpih1	Screaming Piha	0.7436

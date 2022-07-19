@@ -1,9 +1,0 @@
-Selection	View	Channel	Begin Time (s)	End Time (s)	Low Freq (Hz)	High Freq (Hz)	Species Code	Common Name	Confidence
-1	Spectrogram 1	1	0	3.0	150	12000	scrpih1	Screaming Piha	0.9638
-2	Spectrogram 1	1	15.0	18.0	150	12000	somgre1	Sombre Greenbul	0.1237
-3	Spectrogram 1	1	21.0	24.0	150	12000	parjac1	Paradise Jacamar	0.3188
-4	Spectrogram 1	1	24.0	27.0	150	12000	gohman1	Golden-headed Manakin	0.1008
-5	Spectrogram 1	1	27.0	30.0	150	12000	scrpih1	Screaming Piha	0.9697
-6	Spectrogram 1	1	3.0	6.0	150	12000	scrpih1	Screaming Piha	0.5144
-7	Spectrogram 1	1	6.0	9.0	150	12000	lotman1	Long-tailed Manakin	0.1112
-8	Spectrogram 1	1	9.0	12.0	150	12000	scrpih1	Screaming Piha	0.6594

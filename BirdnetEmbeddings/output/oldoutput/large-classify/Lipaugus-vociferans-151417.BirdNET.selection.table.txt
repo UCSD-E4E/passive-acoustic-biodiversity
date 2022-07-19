@@ -1,9 +1,0 @@
-Selection	View	Channel	Begin Time (s)	End Time (s)	Low Freq (Hz)	High Freq (Hz)	Species Code	Common Name	Confidence
-1	Spectrogram 1	1	0	3.0	150	12000	scrpih1	Screaming Piha	0.1945
-2	Spectrogram 1	1	0	3.0	150	12000	tawowl1	Tawny Owl	0.1462
-3	Spectrogram 1	1	15.0	18.0	150	12000	tactan1	Tawny-crested Tanager	0.1312
-4	Spectrogram 1	1	18.0	21.0	150	12000	scrpih1	Screaming Piha	0.9013
-5	Spectrogram 1	1	21.0	24.0	150	12000	scrpih1	Screaming Piha	0.7910
-6	Spectrogram 1	1	3.0	6.0	150	12000	resque1	Resplendent Quetzal	0.3901
-7	Spectrogram 1	1	3.0	6.0	150	12000	rudpig	Ruddy Pigeon	0.3450
-8	Spectrogram 1	1	6.0	9.0	150	12000	scrpih1	Screaming Piha	0.6938

@@ -1,0 +1,7 @@
+Selection	View	Channel	Begin Time (s)	End Time (s)	Low Freq (Hz)	High Freq (Hz)	Species Code	Common Name	Confidence
+1	Spectrogram 1	1	0	3.0	150	12000	scrpih1	Screaming Piha	0.3615
+2	Spectrogram 1	1	0	3.0	150	12000	mocant1	Mouse-colored Antshrike	0.1488
+3	Spectrogram 1	1	0	3.0	150	12000	blttro1	Black-tailed Trogon	0.1145
+4	Spectrogram 1	1	6.0	9.0	150	12000	scrpih1	Screaming Piha	0.1732
+5	Spectrogram 1	1	6.0	9.0	150	12000	mocant1	Mouse-colored Antshrike	0.1416
+6	Spectrogram 1	1	6.0	9.0	150	12000	blcman1	Blue-crowned Manakin	0.1094
