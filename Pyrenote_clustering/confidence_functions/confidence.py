@@ -5,6 +5,8 @@ from .chunking import annotation_chunker
 def confidence_is_100(df, users):
     return 100
 
+#NOTE TO SELF, CREATE BETTER IOU MERTIC SYSTEM
+
 def get_pairwise_iou(df, users):
     iou_scores = np.array([])
     df = df[df["LAST MOD BY"].isin(users)]
@@ -12,9 +14,11 @@ def get_pairwise_iou(df, users):
     for user in users:
         user_df = df[df["LAST MOD BY"] == user]
         not_users_df = df[df["LAST MOD BY"] != user]
-        for not_user in not_users_df["LAST MOD BY"].unique():
+        try:
             iou = clip_statistics(user_df,not_users_df,stats_type = "general", threshold = 0.5)["Global IoU"][0]
             iou_scores = np.append(iou_scores, iou)
+        except:
+            iou_scores = np.append(iou_scores, 0)
     iou_scores = iou_scores.mean()
     return iou_scores
 
