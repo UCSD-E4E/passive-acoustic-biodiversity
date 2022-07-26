@@ -93,4 +93,4 @@ def kmeans(embeddings:pd.DataFrame, embeddingColumns:list, start:int, end:int, s
     
     print("Done writing wcss data")
 
-kmeans(embeddings_df, embeddingColumns, 5, 105, 5)
+kmeans(embeddings_df, embeddingColumns, 5, 205, 5)
