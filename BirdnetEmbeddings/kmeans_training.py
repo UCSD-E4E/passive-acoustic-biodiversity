@@ -85,11 +85,11 @@ def kmeans(embeddings:pd.DataFrame, embeddingColumns:list, start:int, end:int, s
         model_list[-1].fit(embeddings[embeddingColumns])
         wcss_data.append(model_list[-1].inertia_)
         print(f"Done with training KMeans with n_clusters = {n}")
-        with open(f"KMeansModels/model{n}.pkl", "w") as f:
-            pickle.dump(model_list[-1], f)
+        pickle.dump(model_list[-1], open(f"KMeansModels/model{n}.pkl", "wb"))
     
     with open("kmeans_wcss.csv", "w") as f:
-        f.writelines(wcss_data)
+        for line in wcss_data:
+            f.write(str(line) + "\n")
     
     print("Done writing wcss data")
 
