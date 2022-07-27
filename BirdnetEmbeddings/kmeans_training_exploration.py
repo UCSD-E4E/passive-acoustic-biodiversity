@@ -76,11 +76,21 @@ birdnet_species = birdnet_species.set_index("COMMON").to_dict()["SPECIES"]
 
 annotations_df["MANUAL ID"] = annotations_df["MANUAL ID"].apply(lambda x: birdnet_species[x])
 
-def kmeans(manual_df:pd.DataFrame, embeddings:pd.DataFrame, embeddingColumns:list):
+def kmeans(embeddings:pd.DataFrame, embeddingColumns:list, start:int, end:int, step:int):
     # Using elbow method to predict correct number of clusters
-    model = KMeans(n_clusters = len(manual_df["MANUAL ID"].unique()), random_state = 42)
-    model.fit(embeddings[embeddingColumns])
-    print("Done with training KMeans with n_clusters = " + str(len(manual_df["MANUAL ID"].unique())))
-    pickle.dump(model, open(f"KMeansModels/kmeans_model.pkl", "wb"))
+    wcss_data = []
+    model_list:list[KMeans] = []
+    for n in range(start, end, step):
+        model_list.append(KMeans(n_clusters = n, random_state = 42))
+        model_list[-1].fit(embeddings[embeddingColumns])
+        wcss_data.append(model_list[-1].inertia_)
+        print(f"Done with training KMeans with n_clusters = {n}")
+        pickle.dump(model_list[-1], open(f"KMeansModels/model{n}.pkl", "wb"))
+    
+    with open("kmeans_wcss.csv", "w") as f:
+        for line in wcss_data:
+            f.write(str(line) + "\n")
+    
+    print("Done writing wcss data")
 
-kmeans(manual_df, embeddings_df[embeddings_df["MANUAL ID"] != "No bird"], embeddingColumns)
+kmeans(embeddings_df, embeddingColumns, 10, 305, 10)
