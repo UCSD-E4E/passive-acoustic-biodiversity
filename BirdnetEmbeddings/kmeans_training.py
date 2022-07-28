@@ -77,10 +77,9 @@ birdnet_species = birdnet_species.set_index("COMMON").to_dict()["SPECIES"]
 annotations_df["MANUAL ID"] = annotations_df["MANUAL ID"].apply(lambda x: birdnet_species[x])
 
 def kmeans(manual_df:pd.DataFrame, embeddings:pd.DataFrame, embeddingColumns:list):
-    # Using elbow method to predict correct number of clusters
     model = KMeans(n_clusters = len(manual_df["MANUAL ID"].unique()), random_state = 42)
     model.fit(embeddings[embeddingColumns])
     print("Done with training KMeans with n_clusters = " + str(len(manual_df["MANUAL ID"].unique())))
-    pickle.dump(model, open(f"KMeansModels/kmeans_model.pkl", "wb"))
+    pickle.dump(model, open(f"./ClusteringModels/kmeans_model.pkl", "wb"))
 
 kmeans(manual_df, embeddings_df[embeddings_df["MANUAL ID"] != "No bird"], embeddingColumns)
