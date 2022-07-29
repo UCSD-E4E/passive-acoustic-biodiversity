@@ -1,6 +1,6 @@
 from .statistics import *
 from .clustering import *
-from .chunking import annotation_chunker
+from .chunking import annotation_chunker, fast_chunker
 
 def confidence_is_100(df, users):
     return 100
@@ -36,7 +36,6 @@ def get_silhoutte_users_confidence(df,users):
         return silhoutte[1]
 
 def majority_vote(df, users, chunk_length=1):
-    iou_scores = np.array([])
     df = df[df["LAST MOD BY"].isin(users)]
     df = annotation_chunker(df, chunk_length)
     df = df.groupby(by=["LAST MOD BY", "OFFSET"]).max().reset_index()
@@ -44,3 +43,11 @@ def majority_vote(df, users, chunk_length=1):
     df = df.groupby(by=["OFFSET"]).count().reset_index()
     counts = (df["FOLDER"]/len(users)).mean() #Does mean make sense here?
     return counts
+
+
+def fast_majority_vote(df, users, chunk_length=3):
+    df = df[df["LAST MOD BY"].isin(users)]
+    df = fast_chunker(df, chunk_length)
+    df["LAST MOD BY"] = df["LAST MOD BY"].apply(lambda x: len(x.split(",")))
+    counts = (df["LAST MOD BY"]/len(users)).mean()
+    return  counts
