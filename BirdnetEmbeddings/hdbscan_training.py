@@ -79,7 +79,7 @@ annotations_df["MANUAL ID"] = annotations_df["MANUAL ID"].apply(lambda x: birdne
 
 def hdbscan_model(embeddings:pd.DataFrame, embeddingColumns:list):
     np.random.seed(42)
-    model = HDBSCAN(min_cluster_size = 3, min_samples = 1)
+    model = HDBSCAN(min_cluster_size = 5, min_samples = 1, cluster_selection_epsilon = 0.5, alpha = 1.0, cluster_selection_method = "leaf")
     model.fit(embeddings[embeddingColumns])
     pickle.dump(model, open(f"./ClusteringModels/hdbscan_model.pkl", "wb"))
 
