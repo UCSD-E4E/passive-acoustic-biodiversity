@@ -73,13 +73,22 @@ birdnet_species = birdnet_species.assign(
     SPECIES = birdnet_species["SPECIES"].apply(lambda x: x.split("_")[0]), 
     COMMON = birdnet_species["SPECIES"].apply(lambda x: x.split("_")[1])
 )
-birdnet_species = birdnet_species.set_index("COMMON").to_dict()["SPECIES"]
+birdnet_species:dict = birdnet_species.set_index("COMMON").to_dict()["SPECIES"]
 
-annotations_df["MANUAL ID"] = annotations_df["MANUAL ID"].apply(lambda x: birdnet_species[x])
+annotations_df["MANUAL ID"] = annotations_df["MANUAL ID"].apply(lambda x: birdnet_species[x] if x in birdnet_species.keys() else pd.NA)
+annotations_df = annotations_df.dropna(subset = ["MANUAL ID"])
+
+# Data cleaning to avoid file does not exist
+intersection_files = list(set(embeddings_df["IN FILE"].unique()).intersection(set(annotations_df["IN FILE"].unique())).intersection(set(manual_df["IN FILE"].unique())))
+embeddings_df = embeddings_df[embeddings_df["IN FILE"].isin(intersection_files)]
+annotations_df = annotations_df[annotations_df["IN FILE"].isin(intersection_files)]
+manual_df = manual_df[manual_df["IN FILE"].isin(intersection_files)]
+
+print("Finished data loading!")
 
 def hdbscan_model(embeddings:pd.DataFrame, embeddingColumns:list):
     np.random.seed(42)
-    model = HDBSCAN(min_cluster_size = 5, min_samples = 1, cluster_selection_epsilon = 0.5, alpha = 1.0, cluster_selection_method = "leaf")
+    model = HDBSCAN(min_cluster_size = 3, min_samples = 1, cluster_selection_epsilon = 0.5, alpha = 1.0, cluster_selection_method = "leaf")
     model.fit(embeddings[embeddingColumns])
     pickle.dump(model, open(f"./ClusteringModels/hdbscan_model.pkl", "wb"))
 
