@@ -43,7 +43,7 @@ annotations_df["MANUAL ID"] = annotations_df.apply(lambda x: x["MANUAL ID"] \
     if grouped_annotations.loc[x["IN FILE"], x["OFFSET"]] == x["CONFIDENCE"] else pd.NA, axis = 1)
 annotations_df = annotations_df.dropna(subset = ["MANUAL ID"]).reset_index(drop = True)
 
-manual_df = pd.read_csv("mixed_bird_sample.csv")
+manual_df = pd.read_csv("mixed_bird_manual.csv")
 manual_df = pd.DataFrame(annotation_chunker(manual_df, 3))
 manual_df["MANUAL ID"] = manual_df["MANUAL ID"].apply(lambda x: " ".join(x.split(" ")[:2]))
 
