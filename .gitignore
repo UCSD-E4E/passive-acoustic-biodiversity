@@ -7,3 +7,4 @@ BirdnetEmbeddings/embeddings.csv
 BirdnetEmbeddings/mixed_bird_manual.csv
 BirdnetEmbeddings/mixed_bird_sample.csv
 BirdnetEmbeddings/__pycache__
+BirdnetEmbeddings/input/*
