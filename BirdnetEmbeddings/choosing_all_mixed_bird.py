@@ -17,11 +17,10 @@ print(f"Length of birdnet_species: {len(birdnet_species)}")
 file_names = file_names[file_names["SPECIES"].isin(birdnet_species)]
 print(f"New length of file_names: {len(file_names)}")
 
-sample_files = file_names["IN FILE"].sample(100, random_state = 1).tolist()
-print(f"Length of sample_files: {len(sample_files)}")
-
-for file in sample_files:
+i = 0
+for file in file_names["IN FILE"].tolist():
     shutil.copy("../../Mixed_Bird/" + file, "./data/" + file)
+    i += 1
+    print(f"Completed {i} of " + str(len(file_names["IN FILE"].tolist())))
 
-sample_labels = labels[labels["IN FILE"].isin(sample_files)]
-sample_labels.to_csv("mixed_bird_sample.csv")
+print("Finished")
