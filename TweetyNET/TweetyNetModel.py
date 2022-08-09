@@ -166,6 +166,7 @@ class TweetyNetModel:
                 output = self.model(inputs, inputs.shape[0], labels.shape[0])
                 if self.binary:
                     labels = torch.from_numpy((np.array([[x] * output.shape[-1] for x in labels])))
+                labels = labels.type(torch.long)
                 loss = self.criterion(output, labels)
                 loss.backward()
                 self.optimizer.step()
@@ -210,6 +211,7 @@ class TweetyNetModel:
                 output = self.model(inputs, inputs.shape[0], labels.shape[0])
                 if self.binary:
                     labels = torch.from_numpy((np.array([[x] * output.shape[-1] for x in labels])))
+                labels = labels.type(torch.long)
                 loss = self.criterion(output, labels)
                 # get statistics
                 val_loss += loss.item()
