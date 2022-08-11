@@ -8,3 +8,5 @@ BirdnetEmbeddings/mixed_bird_manual.csv
 BirdnetEmbeddings/mixed_bird_sample.csv
 BirdnetEmbeddings/__pycache__
 BirdnetEmbeddings/input/*
+BirdnetEmbeddings/cosmos_annotations/*
+BirdnetEmbeddings/cosmos_data/*
