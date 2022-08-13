@@ -165,7 +165,8 @@ class TweetyNetModel:
                 self.optimizer.zero_grad()
                 output = self.model(inputs, inputs.shape[0], labels.shape[0])
                 if self.binary:
-                    labels = torch.from_numpy((np.array([[x] * output.shape[-1] for x in labels])))
+                    labels = labels.detach()
+                    labels = torch.tensor([[x] * output.shape[-1] for x in labels]).to(self.device)
                 labels = labels.type(torch.long)
                 loss = self.criterion(output, labels)
                 loss.backward()
@@ -210,7 +211,8 @@ class TweetyNetModel:
 
                 output = self.model(inputs, inputs.shape[0], labels.shape[0])
                 if self.binary:
-                    labels = torch.from_numpy((np.array([[x] * output.shape[-1] for x in labels])))
+                    labels = labels.detach()
+                    labels = torch.tensor([[x] * output.shape[-1] for x in labels]).to(self.device)
                 labels = labels.type(torch.long)
                 loss = self.criterion(output, labels)
                 # get statistics
@@ -247,7 +249,8 @@ class TweetyNetModel:
                 output = self.model(inputs, inputs.shape[0], labels.shape[0])
                 temp_uids = []
                 if self.binary:
-                    labels = torch.from_numpy((np.array([[x] * output.shape[-1] for x in labels])))
+                    labels = labels.detach()
+                    labels = torch.tensor([[x] * output.shape[-1] for x in labels]).to(self.device)
                     temp_uids = np.array([[x] * output.shape[-1] for x in uids])
                 else:
                     for u in uids:
