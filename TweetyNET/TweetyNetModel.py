@@ -305,3 +305,40 @@ class TweetyNetModel:
                 new_preds = pd.DataFrame(d)
                 predictions = predictions.append(new_preds)
         return predictions
+    
+    
+    
+    """
+    Function: testing_step
+    Input: test_loader is the test dataset
+    output: predictins that the model made
+    purpose: Evaluate our model on a test set
+    """
+    def testing_step2(self, test_loader):
+        predictions = pd.DataFrame()
+        self.model.eval()
+        with torch.no_grad():
+            for i, data in enumerate(test_loader):
+                inputs, labels, uids = data
+                inputs = inputs.reshape(inputs.shape[0], 1, inputs.shape[1], inputs.shape[2])
+                inputs, labels = inputs.to(self.device), labels.to(self.device)
+
+                output = self.model(inputs, inputs.shape[0], labels.shape[0])
+                temp_uids = []
+                if self.binary:
+                    labels = torch.from_numpy((np.array([[x] * output.shape[-1] for x in labels])))
+                    temp_uids = np.array([[x] * output.shape[-1] for x in uids])
+                else:
+                    for u in uids:
+                        for j in range(output.shape[-1]):
+                             temp_uids.append(str(j) + "_" + u)
+                    temp_uids = np.array(temp_uids)
+                zero_pred = output[:, 0, :]
+                one_pred = output[:, 1, :]
+                pred = torch.argmax(output, dim=1)
+                d = {"uid": temp_uids.flatten(), "zero_pred": zero_pred.flatten(), "one_pred": one_pred.flatten(), "pred": pred.flatten(), "label": labels.flatten()}
+                new_preds = pd.DataFrame(d)
+                predictions = predictions.append(new_preds)
+        print('Finished Testing')
+        return predictions
+    
