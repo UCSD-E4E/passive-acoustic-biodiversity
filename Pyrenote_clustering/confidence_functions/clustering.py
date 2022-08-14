@@ -73,8 +73,9 @@ def run_clustering(model_builder, data_oi, users, distance=1/2, agreement=1, dur
      adv_cluster_count += len(temp)
      adv_num_unique_users += len(pd.unique(temp['LAST MOD BY']))
      #print(get_longest_distance(temp, "OFFSET", "END TIMES"))
-  adv_cluster_count /= (max(clusters) + 1)
-  adv_num_unique_users /=  (max(clusters) + 1) #TEMP FIX INVESTIAGE HERE
+  adv_cluster_count /= int(max(clusters) + 1)
+  adv_num_unique_users /=  int(max(clusters) + 1) #TEMP FIX INVESTIAGE HERE
+
 
   if (verbose):       
     print(clusters)

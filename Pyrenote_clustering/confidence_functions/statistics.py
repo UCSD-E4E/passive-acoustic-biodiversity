@@ -124,8 +124,8 @@ def clip_general(automated_df, human_df):
         f1 = 2 * (recall * precision) / (recall + precision)
         IoU = true_positive_count / union_count
     except BaseException:
-        print('''Error calculating statistics, likely due
-        to zero division, setting values to zero''')
+        #print('''Error calculating statistics, likely due
+        #to zero division, setting values to zero''')
         f1 = 0
         precision = 0
         recall = 0
