@@ -23,7 +23,7 @@ class TweetyNetModel:
     #       ex: (1, 1025, 88) where (# channels, # of frequency bins/mel bands, # of frames)
     #       device: "cuda" or "cpu" to specify if machine will run on gpu or cpu.
     # output: None
-    def __init__(self, num_classes, input_shape, device, epochs = 1, binary=False, criterion=None, optimizer=None):
+    def __init__(self, num_classes, input_shape, device, epochs = 1, binary=False, criterion=None, optimizer=None, workers=0):
         self.model = TweetyNet(num_classes=num_classes,
                                input_shape=input_shape,
                                padding='same',
@@ -49,7 +49,8 @@ class TweetyNetModel:
         self.epochs = epochs
         self.batchsize = 32
         self.n_train_examples = self.batchsize *30 
-        self.n_valid_examples = self.batchsize *10 
+        self.n_valid_examples = self.batchsize *10
+        self.workers = workers
 
     """
     Function: print_results
@@ -106,10 +107,10 @@ class TweetyNetModel:
                        epochs=100, save_me=True, fine_tuning=False, finetune_path=None):
         if fine_tuning:
             self.model.load_weights(finetune_path)
-        train_data_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True)
+        train_data_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True, num_workers=self.workers)
         val_data_loader = None
         if val_dataset != None:
-            val_data_loader = DataLoader(val_dataset, batch_size=batch_size, shuffle=True)
+            val_data_loader = DataLoader(val_dataset, batch_size=batch_size, shuffle=True, num_workers=self.workers)
         scheduler = torch.optim.lr_scheduler.OneCycleLR(self.optimizer,
                                                         max_lr=lr,
                                                         steps_per_epoch=int(len(train_data_loader)),
@@ -121,7 +122,7 @@ class TweetyNetModel:
         self.runtime = end_time - start_time
         test_out = []
         if test_dataset != None:
-            test_data_loader = DataLoader(test_dataset, batch_size=batch_size, shuffle=True)
+            test_data_loader = DataLoader(test_dataset, batch_size=batch_size, shuffle=True, num_workers=self.workers)
             test_out = self.testing_step(test_data_loader)
 
         if save_me:
@@ -275,7 +276,7 @@ class TweetyNetModel:
     def test_load_step(self, test_dataset, batch_size=64, model_weights=None):
         if model_weights != None:
             self.model.load_state_dict(torch.load(model_weights))
-        test_data_loader = DataLoader(test_dataset, batch_size=batch_size, shuffle=True)
+        test_data_loader = DataLoader(test_dataset, batch_size=batch_size, shuffle=True, num_workers=self.workers)
         test_out = self.testing_step(test_data_loader)
         return test_out
 
@@ -286,7 +287,7 @@ class TweetyNetModel:
         test_spectrogram =  wav2spc(wav_path, n_mels=n_mels)
         print(test_spectrogram.shape)
         wav_data = CustomAudioDataset( test_spectrogram, [0]*test_spectrogram.shape[1], wav_path)
-        test_data_loader = DataLoader(wav_data, batch_size=1)
+        test_data_loader = DataLoader(wav_data, batch_size=1, num_workers=self.workers)
         test_out = self.test_a_file(test_data_loader)
         return test_out
 
