@@ -51,6 +51,7 @@ class TweetyNetModel:
         self.n_train_examples = self.batchsize *30 
         self.n_valid_examples = self.batchsize *10
         self.workers = workers
+        self.input_shape = input_shape
 
     """
     Function: print_results
@@ -310,6 +311,18 @@ class TweetyNetModel:
                 predictions = predictions.append(new_preds)
         return predictions
     
+    
+    
+    
+    """
+    Function: get_output_shape
+    Input: n/a
+    output: the shape of the output of model
+    purpose: determine shape need to compare against gt
+    """
+    def get_output_shape(self):
+        shape = np.append(1, self.input_shape)
+        return self.model(torch.rand(*(shape)),1,1).data.shape
     
     
     """
