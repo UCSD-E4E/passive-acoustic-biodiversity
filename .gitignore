@@ -10,3 +10,4 @@ BirdnetEmbeddings/__pycache__
 BirdnetEmbeddings/input/*
 BirdnetEmbeddings/cosmos_annotations/*
 BirdnetEmbeddings/cosmos_data/*
+BirdnetEmbeddings/ClusteringModels/hdbscan_cosmos_model.pkl
