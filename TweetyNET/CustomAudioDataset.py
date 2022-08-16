@@ -1,4 +1,5 @@
 from torch.utils.data import Dataset
+import numpy as np
 
 class CustomAudioDataset(Dataset):
     def __init__(self, spec, annotations, uids, transform=None, target_transform=None):
@@ -10,6 +11,9 @@ class CustomAudioDataset(Dataset):
 
     def __len__(self):
         return len(self.img_labels)
+    
+    def unique_labels(self):
+        return np.unique(self.img_labels)
 
     def __getitem__(self, idx):
         #img_path = os.path.join(self.img_dir, self.img_labels[idx, 0])
