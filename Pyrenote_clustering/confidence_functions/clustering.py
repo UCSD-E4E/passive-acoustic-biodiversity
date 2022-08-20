@@ -11,6 +11,7 @@ import statistics
 from sklearn import metrics
 pd.options.mode.chained_assignment = None  # default='warn'
 from sklearn.cluster import KMeans
+import hdbscan
 
 from numpy import sin, cos, pi, linspace
 def distance_cal2(s1,e1,s2,e2):
@@ -167,3 +168,6 @@ def DBSCAN_auto_dis_builder_min_dis2(data = None, distance = 1, users = None, ag
                     min_samples=2,
                   
                   )
+
+def HDBSCAN_builder(data = None, distance = 1, users = None, agreement = 0.5, duration=False):
+    return 0, hdbscan.HDBSCAN(min_cluster_size=1)

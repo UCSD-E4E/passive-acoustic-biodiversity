@@ -70,3 +70,30 @@ def fast_majority_vote(df, users, chunk_length=3):
     df["LAST MOD BY"] = df["LAST MOD BY"].apply(lambda x: len(x.split(",")))
     counts = (df["LAST MOD BY"]/len(users)).mean()
     return  counts
+
+
+def get_silhoutte_confidence_HDBSCAN(df,users):
+    df = df[df["LAST MOD BY"].isin(users)]
+    scores = np.array([])
+    for file in df["IN FILE"].unique():
+        for manual_id in df["MANUAL ID"].unique():
+            
+            tmp_df = df[df["MANUAL ID"] == manual_id]    
+            model, clusters,  data_processed, silhoutte = label_clusters(tmp_df, HDBSCAN_builder, file, distance = 1/2, verbose=False)
+            #print("species", manual_id, "file", file, "score", silhoutte[1])
+            scores = np.append(scores,  silhoutte[1])
+    return scores.mean()
+
+def get_silhoutte_users_confidence_HDBSCAN(df,users):
+    print("hello")
+    df = df[df["LAST MOD BY"].isin(users)]
+    scores = np.array([])
+    for file in df["IN FILE"].unique():
+        for manual_id in df["MANUAL ID"].unique():
+            
+            tmp_df = df[df["MANUAL ID"] == manual_id]    
+            model, clusters,  data_processed, silhoutte = label_clusters(tmp_df, HDBSCAN_builder, file, distance = 1/2, verbose=False)
+            print(model, clusters,  data_processed, silhoutte)
+            #print("species", manual_id, "file", file, "score", silhoutte[1])
+            scores = np.append(scores,  silhoutte[0])
+    return scores.mean()
