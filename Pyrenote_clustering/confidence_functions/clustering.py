@@ -166,7 +166,6 @@ def DBSCAN_auto_dis_builder_min_dis2(data = None, distance = 1, users = None, ag
     return adv_distance, DBSCAN(
                     eps=adv_distance*0.9, 
                     min_samples=2,
-                  
                   )
 
 def HDBSCAN_builder(data = None, distance = 1, users = None, agreement = 0.5, duration=False):
