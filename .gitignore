@@ -5,3 +5,4 @@ scalpers/.ipynb_checkpoints/xento-canto-scalper-checkpoint.ipynb
 scalpers/data/*
 scalpers/pyrenote_data/*
 *.mp3
+*.wav
