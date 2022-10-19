@@ -40,6 +40,8 @@ unique_species = embeddings_df["FILE SPECIES"].unique()
 from hdbscan import HDBSCAN
 import pickle
 
+print("Done with data loading!")
+
 def hdbscan_model(embeddings:pd.DataFrame, embeddingColumns:list):
     np.random.seed(42)
     for species in unique_species:
@@ -47,6 +49,6 @@ def hdbscan_model(embeddings:pd.DataFrame, embeddingColumns:list):
         spec_embeddings:pd.DataFrame = embeddings[embeddings["FILE SPECIES"] == species]
         model.fit(spec_embeddings[embeddingColumns])
         spec_embeddings["LABELS"] = model.labels_
-        spec_embeddings.to_csv(f"./ClusteringModels/species_specific/embeddings_{species}.csv")
+        spec_embeddings.to_csv(f"./ClusteringModels/species_specific/{species}.csv")
 
 hdbscan_model(embeddings_df, embeddingColumns)
