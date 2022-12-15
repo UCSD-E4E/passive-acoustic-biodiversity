@@ -1,0 +1,7 @@
+Selection	View	Channel	Begin Time (s)	End Time (s)	Low Freq (Hz)	High Freq (Hz)	Species Code	Common Name	Confidence
+1	Spectrogram 1	1	0	3.0	150	12000	scrpih1	Screaming Piha	0.7241
+2	Spectrogram 1	1	12.0	15.0	150	12000	blfant2	Black-faced Antbird	0.1880
+3	Spectrogram 1	1	12.0	15.0	150	12000	rcatan1	Red-crowned Ant-Tanager	0.1068
+4	Spectrogram 1	1	3.0	6.0	150	12000	blfant2	Black-faced Antbird	0.1688
+5	Spectrogram 1	1	9.0	12.0	150	12000	blfant2	Black-faced Antbird	0.4013
+6	Spectrogram 1	1	9.0	12.0	150	12000	scrpih1	Screaming Piha	0.1669

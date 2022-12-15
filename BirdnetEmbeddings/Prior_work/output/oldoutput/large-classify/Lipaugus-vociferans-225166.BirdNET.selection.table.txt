@@ -1,0 +1,19 @@
+Selection	View	Channel	Begin Time (s)	End Time (s)	Low Freq (Hz)	High Freq (Hz)	Species Code	Common Name	Confidence
+1	Spectrogram 1	1	0	3.0	150	12000	parjac1	Paradise Jacamar	0.1389
+2	Spectrogram 1	1	12.0	15.0	150	12000	pygant1	Pygmy Antwren	0.9547
+3	Spectrogram 1	1	15.0	18.0	150	12000	blctro1	Blue-crowned Trogon	0.2588
+4	Spectrogram 1	1	15.0	18.0	150	12000	parjac1	Paradise Jacamar	0.1354
+5	Spectrogram 1	1	15.0	18.0	150	12000	whcman2	White-crowned Manakin	0.1231
+6	Spectrogram 1	1	18.0	21.0	150	12000	scrpih1	Screaming Piha	0.2712
+7	Spectrogram 1	1	21.0	24.0	150	12000	scrpih1	Screaming Piha	0.2765
+8	Spectrogram 1	1	21.0	24.0	150	12000	parjac1	Paradise Jacamar	0.2582
+9	Spectrogram 1	1	21.0	24.0	150	12000	whcman2	White-crowned Manakin	0.1341
+10	Spectrogram 1	1	24.0	27.0	150	12000	scrpih1	Screaming Piha	0.9800
+11	Spectrogram 1	1	24.0	27.0	150	12000	blbman1	Blue-backed Manakin	0.1403
+12	Spectrogram 1	1	27.0	30.0	150	12000	pygant1	Pygmy Antwren	0.8030
+13	Spectrogram 1	1	27.0	30.0	150	12000	parjac1	Paradise Jacamar	0.1320
+14	Spectrogram 1	1	3.0	6.0	150	12000	parjac1	Paradise Jacamar	0.8875
+15	Spectrogram 1	1	6.0	9.0	150	12000	parjac1	Paradise Jacamar	0.7172
+16	Spectrogram 1	1	9.0	12.0	150	12000	parjac1	Paradise Jacamar	0.5300
+17	Spectrogram 1	1	9.0	12.0	150	12000	oliwoo1	Olivaceous Woodcreeper	0.3262
+18	Spectrogram 1	1	9.0	12.0	150	12000	pygant1	Pygmy Antwren	0.2540

@@ -1,0 +1,9 @@
+Selection	View	Channel	Begin Time (s)	End Time (s)	Low Freq (Hz)	High Freq (Hz)	Species Code	Common Name	Confidence
+1	Spectrogram 1	1	0	3.0	150	12000	scrpih1	Screaming Piha	0.9141
+2	Spectrogram 1	1	12.0	15.0	150	12000	scrpih1	Screaming Piha	0.9726
+3	Spectrogram 1	1	15.0	18.0	150	12000	scrpih1	Screaming Piha	0.9436
+4	Spectrogram 1	1	18.0	21.0	150	12000	scrpih1	Screaming Piha	0.9974
+5	Spectrogram 1	1	21.0	24.0	150	12000	plwant1	Plain-winged Antshrike	0.1423
+6	Spectrogram 1	1	24.0	27.0	150	12000	scrpih1	Screaming Piha	0.7950
+7	Spectrogram 1	1	3.0	6.0	150	12000	scrpih1	Screaming Piha	0.2118
+8	Spectrogram 1	1	9.0	12.0	150	12000	scrpih1	Screaming Piha	0.9154

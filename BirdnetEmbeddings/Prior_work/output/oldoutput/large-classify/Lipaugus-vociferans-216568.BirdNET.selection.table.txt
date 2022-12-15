@@ -1,0 +1,14 @@
+Selection	View	Channel	Begin Time (s)	End Time (s)	Low Freq (Hz)	High Freq (Hz)	Species Code	Common Name	Confidence
+1	Spectrogram 1	1	0	3.0	150	12000	scrpih1	Screaming Piha	0.2016
+2	Spectrogram 1	1	0	3.0	150	12000	mocant1	Mouse-colored Antshrike	0.1296
+3	Spectrogram 1	1	12.0	15.0	150	12000	wesant1	Black-crowned Antshrike	0.1034
+4	Spectrogram 1	1	15.0	18.0	150	12000	gohman1	Golden-headed Manakin	0.5682
+5	Spectrogram 1	1	15.0	18.0	150	12000	yeofly1	Yellow-olive Flycatcher	0.1321
+6	Spectrogram 1	1	15.0	18.0	150	12000	webwoo1	Wedge-billed Woodcreeper	0.1080
+7	Spectrogram 1	1	21.0	24.0	150	12000	scrpih1	Screaming Piha	0.5644
+8	Spectrogram 1	1	21.0	24.0	150	12000	ragmac1	Red-and-green Macaw	0.5167
+9	Spectrogram 1	1	24.0	27.0	150	12000	scrpih1	Screaming Piha	0.9742
+10	Spectrogram 1	1	3.0	6.0	150	12000	scrpih1	Screaming Piha	0.9982
+11	Spectrogram 1	1	30.0	33.0	150	12000	scrpih1	Screaming Piha	0.9979
+12	Spectrogram 1	1	33.0	36.0	150	12000	scrpih1	Screaming Piha	0.9976
+13	Spectrogram 1	1	6.0	9.0	150	12000	scrpih1	Screaming Piha	0.9964

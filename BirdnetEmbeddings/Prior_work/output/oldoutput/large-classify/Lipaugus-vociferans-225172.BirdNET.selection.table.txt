@@ -1,0 +1,4 @@
+Selection	View	Channel	Begin Time (s)	End Time (s)	Low Freq (Hz)	High Freq (Hz)	Species Code	Common Name	Confidence
+1	Spectrogram 1	1	0	3.0	150	12000	lotman1	Long-tailed Manakin	0.6141
+2	Spectrogram 1	1	0	3.0	150	12000	scrpih1	Screaming Piha	0.2990
+3	Spectrogram 1	1	0	3.0	150	12000	latman1	Lance-tailed Manakin	0.1256
