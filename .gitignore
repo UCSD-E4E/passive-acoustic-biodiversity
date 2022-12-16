@@ -5,3 +5,4 @@ BirdnetEmbeddings/.ipynb_checkpoints/*
 BirdnetEmbeddings/embeddings.csv
 *.wav
 *.mp3
+*.pyc
