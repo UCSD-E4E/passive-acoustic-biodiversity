@@ -3,6 +3,9 @@ BirdnetEmbeddings/data/*
 BirdnetEmbeddings/data/*
 BirdnetEmbeddings/.ipynb_checkpoints/*
 BirdnetEmbeddings/embeddings.csv
+BirdnetEmbeddings/input/*
+BirdnetEmbeddings/output/*
+BirdnetEmbeddings/ClusteringModels/*
 *.wav
 *.mp3
 *.pyc
