@@ -14,7 +14,7 @@ def generate_embeddings_from_file(path, filename:str):
         f.write(",".join(data.split("\t")))
     file_df = pd.read_csv(path + filename, names = columnNames)
     file_df["IN FILE"] = filename[:filename.index(".birdnet")] + ".wav"
-    file_df["FILE SPECIES"] = filename.split(" - ")[-1].split(".")[0]
+    file_df["FILE SPECIES"] = " ".join(filename.split(" ")[2:4])
     return file_df
 
 def generate_embeddings(path):
@@ -36,6 +36,7 @@ def generate_embeddings(path):
 embeddings_df = generate_embeddings(path)
 
 unique_species = embeddings_df["FILE SPECIES"].unique()
+print("# unique species: " + str(len(unique_species)))
 
 from hdbscan import HDBSCAN
 import pickle

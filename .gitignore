@@ -6,6 +6,8 @@ BirdnetEmbeddings/embeddings.csv
 BirdnetEmbeddings/input/*
 BirdnetEmbeddings/output/*
 BirdnetEmbeddings/ClusteringModels/*
+BirdnetEmbeddings/ClusteringModels/species_specific/*
+BirdnetEmbeddings/cosmos_annotations/*
 *.wav
 *.mp3
 *.pyc
