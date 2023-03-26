@@ -8,3 +8,5 @@
 *.pkl
 *.mp3
 *.wav
+*.pt
+*.model

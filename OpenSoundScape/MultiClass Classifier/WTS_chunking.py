@@ -204,6 +204,115 @@ def fill_no_class(df, chunk):
                 new_df = new_df.append(tmp_row)
     df = new_df.sort_values(["IN FILE", "OFFSET"])
     return df
+
+
+#train_clips = annotation_chunker_no_duplicates(train_clips, 3, False)
+
+def create_chunk_row(row, rows_to_add, new_start, new_end):
+    chunk_row = row.copy()
+    chunk_row["DURATION"] = new_end
+    chunk_row["OFFSET"] = new_start
+    rows_to_add.append(chunk_row.to_frame().T)
+    return rows_to_add
+
+def convoling_chunk(row, over_3_factor=0.1, chunk_duration=3, chunk_gen=2, only_slide=False):
+    chunk_df = pd.DataFrame(columns=row.to_frame().T.columns)
+    rows_to_add = []
+    offset = row["OFFSET"]
+    duration = row["DURATION"]
     
+    #Ignore small duration (could be errors, play with this value)
+    if(duration < 0.4):
+        return chunk_df
+    
+    #print(row["IN FILE"], duration)
+    if (duration <= chunk_duration and not only_slide):
+        #Put the original bird call at...
+        #1) Start of clip
+        #print("start", row["IN FILE"])
+        if (offset+chunk_duration) < row["CLIP LENGTH"]:
+            #print("1")
+            rows_to_add = create_chunk_row(row, rows_to_add, offset, chunk_duration)
+            
+        #2) End of clip
+        if offset+duration-chunk_duration > 0: 
+            #print("2")
+            rows_to_add = create_chunk_row(row, rows_to_add, offset+duration-chunk_duration, chunk_duration)
+            
+        #3) Middle of clip
+        if offset+duration-chunk_duration/2>0 and (offset+duration+chunk_duration/2)< row["CLIP LENGTH"]:
+            #print("3")
+            
+            #Could be better placed in middle, maybe with some randomization?
+            rows_to_add = create_chunk_row(row, rows_to_add, (offset+duration-chunk_duration/2), chunk_duration)
+            
+    
+    #Longer than chunk duration
+    else:
+        #Perform Yan's Sliding Window operation
+        clip_num=int(duration/(chunk_duration/2))
+        for i in range(clip_num-1):
+            new_start = offset+i*1.5
+            new_end = offset + chunk_duration+i*1.5
+            if ((offset+3)+i*1.5) < row["CLIP LENGTH"]:
+                create_chunk_row(row, rows_to_add, new_start, chunk_duration) 
+    
+    #Add all new rows to our return df
+    if (len(rows_to_add) == 0):
+        return chunk_df
+    
+    chunk_df = pd.concat(rows_to_add,  ignore_index=True)
+
+    return chunk_df
+
+def dynamic_yan_chunking(df, chunk_count=5,chunk_duration=3, only_slide=False):
+    return_df = pd.DataFrame(columns=df.columns)
+    
+    for index, row in df.iterrows():
+        chunk_df = convoling_chunk(row, only_slide=only_slide)
+        return_df = pd.concat([return_df, chunk_df],  ignore_index=True)
+    
+    return return_df
+
+
+#dynamic_yan_chunking(test_anntotations, 3)    
+
+#NOTE ASSUMES ALL THE LABELS ARE THE SAME
+def combine_chunked_df(df):
+    return_df = pd.DataFrame(columns=df.columns)
+    dfs = []
+    for file in df["IN FILE"].unique():
+        file_df = df[df["IN FILE"] == file]
+        data_df = file_df.copy()
+
+        file_df = file_df.sort_values(by="OFFSET")
+        file_df["END"] = np.array(file_df["OFFSET"] + file_df["DURATION"])
+        file_df["NEXT START"] = file_df["OFFSET"].shift(-1)
+        file_df["LAST END"] = file_df["END"].shift(1)
+
+        #IF TRUE, THEN THIS ROW IS SEPERATED ABOVE AND BELOW FROM ANY OTHER ANNOTATION
+        temp = ~((file_df['END'] == file_df['NEXT START']) | (file_df['OFFSET'] == file_df['LAST END']))
+
+        #SEE IF WE HAVE THE START OF A GROUPED ANNOTATION OR WE HAVE A INDEPETENT ANNOTATION
+        file_df["GROUPS"] = ((temp.shift() != temp) | temp).cumsum()
+
+        file_df = file_df[["OFFSET", "END", "NEXT START", "LAST END", "GROUPS"]]
+        file_df = file_df.groupby("GROUPS").agg({"OFFSET": "min", "END": "max"}).reset_index(drop=True)
+        
+        file_df["DURATION"] = file_df["END"] - file_df["OFFSET"]
+        file_df["IN FILE"] = file
+        file_df["FOLDER"] = data_df.iloc[0]["FOLDER"]
+        file_df["CLIP LENGTH"] = data_df.iloc[0]["CLIP LENGTH"]
+        file_df["CHANNEL"] = data_df.iloc[0]["CHANNEL"]
+        file_df["MANUAL ID"] = data_df.iloc[0]["MANUAL ID"]
+        file_df["SAMPLE RATE"] = data_df.iloc[0]["SAMPLE RATE"]
+        dfs.append(file_df)
+        
+    return pd.concat(dfs).reset_index(drop=True)
+               
+        
+        
+        
+
     
     
