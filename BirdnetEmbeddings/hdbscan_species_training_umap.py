@@ -19,8 +19,8 @@ def hdbscan_model(embeddings:pd.DataFrame, embeddingColumns:list):
     for species in unique_species:
         if (min(5, len(embeddings[embeddings["FILE SPECIES"] == species].index))) <= 1:
             continue
-        model = HDBSCAN(min_cluster_size = min(5, len(embeddings[embeddings["FILE SPECIES"] == species].index)),
-            min_samples = min(5, len(embeddings[embeddings["FILE SPECIES"] == species].index)),
+        model = HDBSCAN(min_cluster_size = min(100, len(embeddings[embeddings["FILE SPECIES"] == species].index)),
+            min_samples = min(50, len(embeddings[embeddings["FILE SPECIES"] == species].index)),
             cluster_selection_epsilon = 0.5,
             cluster_selection_method = "leaf",
         )
