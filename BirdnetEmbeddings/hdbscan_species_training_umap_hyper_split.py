@@ -33,6 +33,7 @@ for a in [5, 10, 20, 50, 100, 200, 500]:
 filtered_embeddings = hdbscan_all
 print("Created filter")
 
+count = 0
 def create_annotation_filter(x: pd.Series, filter: pd.DataFrame) -> pd.DataFrame:
     filter_x = filter[filter["IN FILE"].str.startswith(x["IN FILE"].split(".mp3")[0])]
     starts = filter_x["START"].to_numpy()
@@ -46,6 +47,10 @@ def create_annotation_filter(x: pd.Series, filter: pd.DataFrame) -> pd.DataFrame
         x["FILTERED"] = True
     else:
         x["FILTERED"] = False
+    global count
+    count += 1
+    if count % 10000 == 0:
+        print(f"Completed {count} annotations")
     return x
 
 automated_filtered_all = dict()
@@ -57,6 +62,7 @@ for a in [5, 10, 20, 50, 100, 200, 500]:
         for i in range(5):
             automated_filtered_all[a,b][i].to_csv(f"./cosmos_annotations/filtered/species_{i}/{a}_{b}_filtered.csv")
         print(f"Done with filtering for hyperparameters {a} and {b}")
+        count = 0
 print(automated_filtered_all[5,5])
 
 print("Done with filtering!")
